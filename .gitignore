@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+.env
+
+# Job directories
+jobs/*
+
+# Local development files
+*.db
+.DS_Store

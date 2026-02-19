@@ -1,0 +1,283 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Hero Section -->
+<div class="bg-transparent text-white py-5">
+    <div class="container text-center">
+        <h1 class="display-4">🔬 StaphScope</h1>
+        <p class="lead">A species-optimized  computational pipeline for rapid and<em>Staphylococcus aureus</em> genotyping and surveillance</p>
+        <p>Complete MRSA/MSSA genomic analysis in minutes – not hours</p>
+        <a href="#upload" class="btn btn-primary btn-lg mt-3">Start Analysis</a>
+    </div>
+</div>
+
+<!-- Features -->
+<div class="container my-5" id="features">
+    <h2 class="text-center text-white mb-4">✨ Integrated Modules</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">🧬 MLST Typing</h5>
+                    <p class="card-text">Sequence type, clonal complex, allele profiles.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">🧪 <em>spa</em> Typing</h5>
+                    <p class="card-text"><em>spa</em> type, repeat patterns, alignment.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">💊 SCC<em>mec</em> Typing</h5>
+                    <p class="card-text">Methicillin resistance cassette (I‑XIII).</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">🦠 AMR Profiling</h5>
+                    <p class="card-text">5,000+ resistance genes, risk categorization.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">📊 ABRicate Screening</h5>
+                    <p class="card-text">9 databases: virulence, plasmids, resistance.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">🌍 Lineage Database</h5>
+                    <p class="card-text">44 major lineages, HA‑MRSA / CA‑MRSA classification.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">🔍 FASTA QC</h5>
+                    <p class="card-text">Quality control and statistics for input genomes.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">📈 Visualization</h5>
+                    <p class="card-text">Interactive dashboards and plots.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Upload Form -->
+<div class="container my-5" id="upload">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Run StaphScope Analysis</h4>
+                </div>
+                <div class="card-body">
+                    <p>Upload genome(s) in FASTA format (.fasta, .fna, .fa). You can:</p>
+                    <ul>
+                        <li>Select multiple files (Ctrl+click / Cmd+click)</li>
+                        <li>Upload a ZIP file containing multiple FASTA files</li>
+                    </ul>
+                    <form id="uploadForm" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="file" class="form-label">FASTA file(s) or ZIP archive</label>
+                            <input class="form-control" type="file" name="file" id="file" 
+                                   accept=".fasta,.fna,.fa,.fn,.faa,.zip" multiple required>
+                            <small class="text-muted">Hold Ctrl (or Cmd on Mac) to select multiple files</small>
+                        </div>
+
+                        <h5>Select modules to run (uncheck to skip)</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="skip_modules" value="fasta_qc" id="skip_fasta_qc">
+                                    <label class="form-check-label" for="skip_fasta_qc">Skip FASTA QC</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="skip_modules" value="mlst" id="skip_mlst">
+                                    <label class="form-check-label" for="skip_mlst">Skip MLST</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="skip_modules" value="spa" id="skip_spa">
+                                    <label class="form-check-label" for="skip_spa">Skip spa typing</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="skip_modules" value="sccmec" id="skip_sccmec">
+                                    <label class="form-check-label" for="skip_sccmec">Skip SCCmec</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="skip_modules" value="amr" id="skip_amr">
+                                    <label class="form-check-label" for="skip_amr">Skip AMR</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="skip_modules" value="abricate" id="skip_abricate">
+                                    <label class="form-check-label" for="skip_abricate">Skip ABRicate</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="skip_modules" value="lineage" id="skip_lineage">
+                                    <label class="form-check-label" for="skip_lineage">Skip lineage database</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="skip_modules" value="comprehensive" id="skip_comprehensive">
+                                    <label class="form-check-label" for="skip_comprehensive">Skip comprehensive report</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="skip_modules" value="visualization" id="skip_visualization">
+                                    <label class="form-check-label" for="skip_visualization">Skip visualization</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                    </form>
+                    <div id="progress" class="mt-3" style="display:none;">
+                        <div class="progress">
+                            <div id="progressBar" class="progress-bar" role="progressbar" style="width:0%;">0%</div>
+                        </div>
+                        <p id="statusMessage" class="mt-2"></p>
+                        <div id="fileList" class="mt-2 small"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- NEW SECTION: Guide for large datasets -->
+<div class="container my-5">
+    <div class="card publication-card">
+        <div class="card-header">
+            <h4>📦 Processing Large Datasets? Use the Command Line</h4>
+        </div>
+        <div class="card-body">
+            <p>The web version is limited to <strong>10 files per job</strong> to ensure fair usage of server resources. If you need to analyze more genomes (e.g., batch processing of dozens or hundreds), we recommend using the command-line version of StaphScope. It's designed to be easy for non-bioinformaticians and automatically handles resource allocation.</p>
+            
+            <h5 class="mt-3">🔧 Step-by-step guide for Linux / Ubuntu users</h5>
+            <ol>
+                <li><strong>Install Miniconda</strong> (if not already installed): 
+                    <pre><code>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
+source ~/.bashrc</code></pre>
+                </li>
+                <li><strong>Create and activate the StaphScope environment</strong>:
+                    <pre><code>conda create -n staphscope -c conda-forge -c bioconda -c bbeckley-hub staphscope -y
+conda activate staphscope</code></pre>
+                </li>
+                <li><strong>Update ABRicate databases</strong> (required before first use):
+                    <pre><code>abricate --setupdb</code></pre>
+                </li>
+                <li><strong>Prepare your FASTA files</strong> – ensure they are in one folder and have extensions like <code>.fna</code>, <code>.fasta</code>, or <code>.fa</code>.</li>
+                <li><strong>Navigate to the folder</strong> containing your files:
+                    <pre><code>cd /path/to/your/fasta/files</code></pre>
+                </li>
+                <li><strong>Run StaphScope</strong> using a glob pattern that matches your files. For example:
+                    <pre><code>staphscope -i "*.fna" -o Staphscope_results</code></pre>
+                    <p>Replace <code>*.fna</code> with <code>*.fasta</code> or <code>*.fa</code> depending on your file extensions. No need to specify threads – StaphScope automatically allocates the optimal number based on your CPU.</p>
+                </li>
+            </ol>
+            <p class="mt-3"><strong>☕ Relax and enjoy your coffee</strong> – StaphScope will process all files and produce the same comprehensive reports you see here. All results will be saved in the <code>Staphscope_results</code> folder.</p>
+            <p class="text-muted">For more details, visit our <a href="https://github.com/bbeckley-hub/staphscope-typing-tool" target="_blank">GitHub repository</a>.</p>
+        </div>
+    </div>
+</div>
+
+<!-- About MRSA/MSSA -->
+<div class="container my-5">
+    <h2 class="text-center text-white">About <em>S. aureus</em></h2>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>MRSA (Methicillin‑Resistant <em>S. aureus</em>)</h5>
+                    <p>Resistant to beta‑lactam antibiotics due to <em>mecA</em>/<em>mecC</em> genes carried on SCC<em>mec</em> cassettes. Leading cause of hospital‑acquired infections.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>MSSA (Methicillin‑Susceptible <em>S. aureus</em>)</h5>
+                    <p>Lacks SCC<em>mec</em> and remains susceptible to beta‑lactams. Still a major pathogen, often carrying various virulence factors.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Publications Section -->
+<div class="container my-5" id="publications">
+    <div class="card publication-card">
+        <div class="card-body">
+            <h2 class="card-title text-center">📚 Citation</h2>
+            <p class="text-center">If you use StaphScope, please cite:</p>
+            <blockquote class="blockquote text-center">
+                <p>Beckley, B., Amarh, V. (2026). StaphScope: a species‑optimized computational pipeline for rapid and accessible <em>Staphylococcus aureus</em> genotyping and surveillance. <em>BMC Genomics</em>, 27:123.</p>
+                <footer class="blockquote-footer">DOI: <a href="https://doi.org/10.1186/s12864-026-12609-x" target="_blank" style="color: #fbbf24;">10.1186/s12864-026-12609-x</a> | PMID: 41645058</footer>
+            </blockquote>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Section -->
+<div class="container my-5" id="contact">
+    <div class="card publication-card">
+        <div class="card-body">
+            <h2 class="card-title text-center">📬 Contact</h2>
+            <p class="text-center">For issues or collaborations:</p>
+            <p class="text-center"><a href="mailto:brownbeckley94@gmail.com" style="color: #fbbf24; font-weight: bold;">brownbeckley94@gmail.com</a></p>
+            <p class="text-center">GitHub: <a href="https://github.com/bbeckley-hub/staphscope-typing-tool" target="_blank" style="color: #fbbf24;">bbeckley-hub/staphscope-typing-tool</a></p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const fileInput = document.getElementById('file');
+    const fileCount = fileInput.files.length;
+    
+    document.getElementById('progress').style.display = 'block';
+    document.getElementById('fileList').innerHTML = `<strong>Uploading ${fileCount} file(s)...</strong>`;
+
+    try {
+        const response = await fetch('/submit', {
+            method: 'POST',
+            body: formData
+        });
+        const data = await response.json();
+        if (response.ok) {
+            document.getElementById('fileList').innerHTML = 
+                `<strong>✅ Uploaded ${data.file_count} FASTA files. Starting analysis...</strong>`;
+            window.location.href = `/progress/${data.job_id}`;
+        } else {
+            alert('Error: ' + data.error);
+        }
+    } catch (error) {
+        alert('Upload failed: ' + error);
+    }
+});
+</script>
+{% endblock %}

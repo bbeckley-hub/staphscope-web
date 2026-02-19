@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2>Job Progress: {{ job_id }}</h2>
+        </div>
+        <div class="card-body">
+            <div class="progress mb-3">
+                <div id="progressBar" class="progress-bar" role="progressbar" style="width:0%;">0%</div>
+            </div>
+            <div class="card bg-dark text-white">
+                <div class="card-header bg-secondary">Live Logs</div>
+                <div class="card-body">
+                    <pre id="logOutput" style="height: 400px; overflow-y: scroll; background: #1e1e1e; color: #00ff00; padding: 10px; border-radius: 5px;"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const jobId = "{{ job_id }}";
+const logOutput = document.getElementById('logOutput');
+const progressBar = document.getElementById('progressBar');
+
+function fetchStatus() {
+    fetch(`/status/${jobId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.log) {
+                logOutput.innerText = data.log.join('');
+                logOutput.scrollTop = logOutput.scrollHeight;
+            }
+            if (data.status === 'COMPLETED') {
+                progressBar.style.width = '100%';
+                progressBar.innerText = 'Completed!';
+                setTimeout(() => { window.location.href = `/results/${jobId}`; }, 2000);
+            } else if (data.status === 'FAILED') {
+                progressBar.style.width = '100%';
+                progressBar.classList.add('bg-danger');
+                progressBar.innerText = 'Failed';
+                logOutput.innerText += '\n\n❌ ERROR: ' + data.error;
+            } else {
+                progressBar.style.width = '50%';
+                progressBar.innerText = 'Running...';
+                setTimeout(fetchStatus, 3000);
+            }
+        });
+}
+
+fetchStatus();
+</script>
+{% endblock %}

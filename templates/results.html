@@ -1,0 +1,279 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2>Results for Job: {{ job_id }}</h2>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-success">
+                Analysis completed successfully! You can view individual reports below or download all results as a ZIP.
+            </div>
+            
+            <!-- Download Button -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <a href="{{ url_for('download_results', job_id=job_id) }}" class="btn btn-primary btn-lg">
+                        📥 Download All Results (ZIP)
+                    </a>
+                    <p class="text-muted mt-2">The ZIP file contains all analysis folders and reports.</p>
+                </div>
+            </div>
+
+            <!-- Results Tabs -->
+            <ul class="nav nav-tabs" id="resultTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="comprehensive-tab" data-bs-toggle="tab" data-bs-target="#comprehensive" type="button" role="tab">📋 Comprehensive</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="mlst-tab" data-bs-toggle="tab" data-bs-target="#mlst" type="button" role="tab">🧬 MLST</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="spa-tab" data-bs-toggle="tab" data-bs-target="#spa" type="button" role="tab">🧪 spa</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="sccmec-tab" data-bs-toggle="tab" data-bs-target="#sccmec" type="button" role="tab">💊 SCCmec</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="amr-tab" data-bs-toggle="tab" data-bs-target="#amr" type="button" role="tab">🦠 AMR</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="abricate-tab" data-bs-toggle="tab" data-bs-target="#abricate" type="button" role="tab">📊 ABRicate</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="lineage-tab" data-bs-toggle="tab" data-bs-target="#lineage" type="button" role="tab">🌍 Lineage</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="fastaqc-tab" data-bs-toggle="tab" data-bs-target="#fastaqc" type="button" role="tab">🔍 FASTA QC</button>
+                </li>
+                {% if vis_exists %}
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="vis-tab" data-bs-toggle="tab" data-bs-target="#vis" type="button" role="tab">📈 Visualization</button>
+                </li>
+                {% endif %}
+            </ul>
+
+            <div class="tab-content mt-3" id="resultTabsContent">
+                <!-- Comprehensive Report -->
+                <div class="tab-pane fade show active" id="comprehensive" role="tabpanel">
+                    <h4>Comprehensive Report</h4>
+                    <div class="list-group">
+                        <a href="{{ url_for('result_file', job_id=job_id, filename='Staphscope_final_report/staphscope_comprehensive_report.html') }}" class="list-group-item list-group-item-action" target="_blank">
+                            📄 View Comprehensive Report (HTML)
+                        </a>
+                        <a href="{{ url_for('result_file', job_id=job_id, filename='Staphscope_final_report/staphscope_comprehensive_report.tsv') }}" class="list-group-item list-group-item-action">
+                            📊 Download TSV
+                        </a>
+                        <a href="{{ url_for('result_file', job_id=job_id, filename='Staphscope_final_report/staphscope_comprehensive_report.json') }}" class="list-group-item list-group-item-action">
+                            📋 Download JSON
+                        </a>
+                        {% if check_file_exists(job_id, 'Staphscope_final_report/STAPHSCOPE_ULTIMATE_REPORTS') %}
+                        <h5 class="mt-3">Ultimate Reports</h5>
+                        <a href="{{ url_for('result_file', job_id=job_id, filename='Staphscope_final_report/STAPHSCOPE_ULTIMATE_REPORTS/staphscope_ultimate_report.html') }}" class="list-group-item list-group-item-action" target="_blank">
+                            📄 Ultimate Report (HTML)
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- MLST Results -->
+                <div class="tab-pane fade" id="mlst" role="tabpanel">
+                    <h4>MLST Results</h4>
+                    <div class="list-group">
+                        <a href="{{ url_for('result_file', job_id=job_id, filename='mlst_results/mlst_summary.html') }}" class="list-group-item list-group-item-action" target="_blank">
+                            📄 MLST Summary (HTML)
+                        </a>
+                        <a href="{{ url_for('result_file', job_id=job_id, filename='mlst_results/mlst_summary.tsv') }}" class="list-group-item list-group-item-action">
+                            📊 Download TSV
+                        </a>
+                        <a href="{{ url_for('result_file', job_id=job_id, filename='mlst_results/mlst_summary.json') }}" class="list-group-item list-group-item-action">
+                            📋 Download JSON
+                        </a>
+                        <h5 class="mt-3">Individual Sample Reports</h5>
+                        {% for sample in get_sample_folders(job_id, 'mlst_results') %}
+                        <div class="ms-3">
+                            <strong>{{ sample }}</strong>
+                            <a href="{{ url_for('result_file', job_id=job_id, filename='mlst_results/' + sample + '/mlst_report.html') }}" class="btn btn-sm btn-outline-primary ms-2" target="_blank">HTML</a>
+                            <a href="{{ url_for('result_file', job_id=job_id, filename='mlst_results/' + sample + '/mlst_report.tsv') }}" class="btn btn-sm btn-outline-secondary">TSV</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- spa Results -->
+                <div class="tab-pane fade" id="spa" role="tabpanel">
+                    <h4>spa Typing Results</h4>
+                    <div class="list-group">
+                        <a href="{{ url_for('result_file', job_id=job_id, filename='spa_results/spa_summary.html') }}" class="list-group-item list-group-item-action" target="_blank">
+                            📄 spa Summary (HTML)
+                        </a>
+                        <a href="{{ url_for('result_file', job_id=job_id, filename='spa_results/spa_summary.tsv') }}" class="list-group-item list-group-item-action">
+                            📊 Download TSV
+                        </a>
+                        <h5 class="mt-3">Individual Sample Reports</h5>
+                        {% for sample in get_sample_folders(job_id, 'spa_results') %}
+                        <div class="ms-3">
+                            <strong>{{ sample }}</strong>
+                            <a href="{{ url_for('result_file', job_id=job_id, filename='spa_results/' + sample + '/spa_typing_report.html') }}" class="btn btn-sm btn-outline-primary ms-2" target="_blank">HTML</a>
+                            <a href="{{ url_for('result_file', job_id=job_id, filename='spa_results/' + sample + '/spa_typing_report.tsv') }}" class="btn btn-sm btn-outline-secondary">TSV</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- SCCmec Results -->
+                <div class="tab-pane fade" id="sccmec" role="tabpanel">
+                    <h4>SCCmec Results</h4>
+                    <div class="list-group">
+                        <a href="{{ url_for('result_file', job_id=job_id, filename='sccmec_results/staphscope_summary.html') }}" class="list-group-item list-group-item-action" target="_blank">
+                            📄 SCCmec Summary (HTML)
+                        </a>
+                        <a href="{{ url_for('result_file', job_id=job_id, filename='sccmec_results/staphscope_summary.tsv') }}" class="list-group-item list-group-item-action">
+                            📊 Download TSV
+                        </a>
+                        <a href="{{ url_for('result_file', job_id=job_id, filename='sccmec_results/staphscope_detailed_results.csv') }}" class="list-group-item list-group-item-action">
+                            📊 Download Detailed CSV
+                        </a>
+                    </div>
+                </div>
+
+                <!-- AMR Results -->
+                <div class="tab-pane fade" id="amr" role="tabpanel">
+                    <h4>AMR Results</h4>
+                    <div class="list-group">
+                        <a href="{{ url_for('result_file', job_id=job_id, filename='amr_results/staph_amrfinder_summary_report.html') }}" class="list-group-item list-group-item-action" target="_blank">
+                            📄 AMR Summary (HTML)
+                        </a>
+                        <a href="{{ url_for('result_file', job_id=job_id, filename='amr_results/staph_amrfinder_summary.tsv') }}" class="list-group-item list-group-item-action">
+                            📊 Download TSV
+                        </a>
+                        <h5 class="mt-3">Individual Sample Reports</h5>
+                        {% for sample in get_sample_folders(job_id, 'amr_results') %}
+                        <div class="ms-3">
+                            <strong>{{ sample }}</strong>
+                            <a href="{{ url_for('result_file', job_id=job_id, filename='amr_results/' + sample + '/' + sample + '_amrfinder_report.html') }}" class="btn btn-sm btn-outline-primary ms-2" target="_blank">HTML</a>
+                            <a href="{{ url_for('result_file', job_id=job_id, filename='amr_results/' + sample + '/' + sample + '_amrfinder.txt') }}" class="btn btn-sm btn-outline-secondary">TXT</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- ABRicate Results -->
+                <div class="tab-pane fade" id="abricate" role="tabpanel">
+                    <h4>ABRicate Results</h4>
+                    <div class="accordion" id="abricateAccordion">
+                        {% for db in ['card', 'vfdb', 'plasmidfinder', 'ncbi', 'megares', 'resfinder', 'argannot', 'ecoh', 'ecoli_vf'] %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading{{ db }}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ db }}" aria-expanded="false" aria-controls="collapse{{ db }}">
+                                    {{ db|upper }} Database
+                                </button>
+                            </h2>
+                            <div id="collapse{{ db }}" class="accordion-collapse collapse" aria-labelledby="heading{{ db }}" data-bs-parent="#abricateAccordion">
+                                <div class="accordion-body">
+                                    <div class="list-group">
+                                        <a href="{{ url_for('result_file', job_id=job_id, filename='abricate_results/staph_' + db + '_summary_report.html') }}" class="list-group-item list-group-item-action" target="_blank">
+                                            📄 Summary Report (HTML)
+                                        </a>
+                                        <a href="{{ url_for('result_file', job_id=job_id, filename='abricate_results/staph_' + db + '_abricate_summary.tsv') }}" class="list-group-item list-group-item-action">
+                                            📊 Download TSV
+                                        </a>
+                                    </div>
+                                    <h6 class="mt-2">Individual Sample Reports</h6>
+                                    {% for sample in get_sample_folders(job_id, 'abricate_results') %}
+                                    <div class="ms-3">
+                                        <strong>{{ sample }}</strong>
+                                        <a href="{{ url_for('result_file', job_id=job_id, filename='abricate_results/' + sample + '/abricate_' + db + '_report.html') }}" class="btn btn-sm btn-outline-primary ms-2" target="_blank">HTML</a>
+                                        <a href="{{ url_for('result_file', job_id=job_id, filename='abricate_results/' + sample + '/abricate_' + db + '.txt') }}" class="btn btn-sm btn-outline-secondary">TXT</a>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Lineage Results -->
+                <div class="tab-pane fade" id="lineage" role="tabpanel">
+                    <h4>Lineage Reference</h4>
+                    <div class="list-group">
+                        <a href="{{ url_for('result_file', job_id=job_id, filename='lineage_results/staphscope_lineage_reference.html') }}" class="list-group-item list-group-item-action" target="_blank">
+                            📄 Lineage Reference (HTML)
+                        </a>
+                    </div>
+                </div>
+
+                <!-- FASTA QC Results -->
+                <div class="tab-pane fade" id="fastaqc" role="tabpanel">
+                    <h4>FASTA Quality Control</h4>
+                    <div class="list-group">
+                        <a href="{{ url_for('result_file', job_id=job_id, filename='fasta_qc_results/FASTA_QC_summary.html') }}" class="list-group-item list-group-item-action" target="_blank">
+                            📄 FASTA QC Summary (HTML)
+                        </a>
+                        <a href="{{ url_for('result_file', job_id=job_id, filename='fasta_qc_results/FASTA_QC_summary.tsv') }}" class="list-group-item list-group-item-action">
+                            📊 Download TSV
+                        </a>
+                        <a href="{{ url_for('result_file', job_id=job_id, filename='fasta_qc_results/FASTA_QC_summary.json') }}" class="list-group-item list-group-item-action">
+                            📋 Download JSON
+                        </a>
+                        <h5 class="mt-3">Individual Sample Reports</h5>
+                        {% for sample in get_sample_folders(job_id, 'fasta_qc_results') %}
+                        <div class="ms-3">
+                            <strong>{{ sample }}</strong>
+                            <a href="{{ url_for('result_file', job_id=job_id, filename='fasta_qc_results/' + sample + '/') }}" class="btn btn-sm btn-outline-primary ms-2" target="_blank">Browse</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Visualization Results -->
+                {% if vis_exists %}
+                <div class="tab-pane fade" id="vis" role="tabpanel">
+                    <h4>Visualization Outputs</h4>
+                    <div class="list-group">
+                        <a href="{{ url_for('result_file', job_id=job_id, filename='STAPHSCOPE_VISUALIZATIONS/staphscope_visualization_report.txt') }}" class="list-group-item list-group-item-action" target="_blank">
+                            📄 Visualization Report (TXT)
+                        </a>
+                        <h5 class="mt-3">Image Galleries</h5>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6>PNG Images</h6>
+                                        <a href="{{ url_for('result_file', job_id=job_id, filename='STAPHSCOPE_VISUALIZATIONS/PNG/') }}" class="btn btn-sm btn-outline-primary" target="_blank">Browse PNG</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6>SVG Images</h6>
+                                        <a href="{{ url_for('result_file', job_id=job_id, filename='STAPHSCOPE_VISUALIZATIONS/SVG/') }}" class="btn btn-sm btn-outline-primary" target="_blank">Browse SVG</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6>PDF Reports</h6>
+                                        <a href="{{ url_for('result_file', job_id=job_id, filename='STAPHSCOPE_VISUALIZATIONS/PDF/') }}" class="btn btn-sm btn-outline-primary" target="_blank">Browse PDF</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="mt-3">You can also download the complete visualization folder via the ZIP button above.</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// No jQuery needed; Bootstrap 5 handles tabs via data-bs-toggle
+</script>
+{% endblock %}
