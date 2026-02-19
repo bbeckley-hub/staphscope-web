@@ -1,4 +1,5 @@
-```markdown
+<div align="center">
+    
 # 🔬 StaphScope Web
 
 ### A web-based interface for rapid *Staphylococcus aureus* genotyping and surveillance
@@ -8,6 +9,7 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![DOI](https://img.shields.io/badge/DOI-10.1186%2Fs12864--026--12609--x-blue)](https://doi.org/10.1186/s12864-026-12609-x)
 
+</div>
 ---
 
 ## 📋 **Table of Contents**
@@ -316,6 +318,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - StaphScope development team
 - University of Ghana Medical School
 - All contributors and beta testers
+
+  </div>
 
 ---
 
