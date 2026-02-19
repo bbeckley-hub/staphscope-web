@@ -10,7 +10,6 @@
 [![DOI](https://img.shields.io/badge/DOI-10.1186%2Fs12864--026--12609--x-blue)](https://doi.org/10.1186/s12864-026-12609-x)
 
 </div>
----
 
 ## 📋 **Table of Contents**
 - [Overview](#-overview)
