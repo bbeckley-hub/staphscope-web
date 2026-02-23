@@ -32,7 +32,7 @@
 
 **StaphScope Web** is a user-friendly web interface for the [StaphScope command-line tool](https://github.com/bbeckley-hub/staphscope-typing-tool), a comprehensive bioinformatics pipeline for *Staphylococcus aureus* genomic analysis. It allows researchers and clinicians to upload bacterial genomes and receive detailed typing results without any command-line expertise.
 
-The tool integrates **eight essential genotyping methods** into a single, cohesive workflow, making MRSA/MSSA surveillance accessible to all.
+The tool integrates **six essential genotyping methods** into a single, cohesive workflow, making MRSA/MSSA surveillance accessible to all.
 
 ---
 
