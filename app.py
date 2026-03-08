@@ -2,6 +2,7 @@
 """
 StaphScope Web Application
 Flask app for uploading genomes and running StaphScope analysis asynchronously.
+author: <brownbeckley94@gmail>
 """
 
 import os
