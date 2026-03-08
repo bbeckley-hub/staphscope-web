@@ -50,7 +50,7 @@ The tool integrates **six essential genotyping methods** into a single, cohesive
 | **Lineage Database** | Global epidemiological context | 44 major lineages |
 | **Visualization** | Interactive dashboards | PNG/SVG/PDF outputs |
 
-### 🚀 **Web-Specific Features**
+### 🚀 **Web-Specific Featuress**
 - ✅ **Drag-and-drop file upload** (single, multiple, or ZIP)
 - ✅ **Module selection** – choose which analyses to run
 - ✅ **Real-time progress monitoring** with live logs
