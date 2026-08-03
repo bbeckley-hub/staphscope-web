@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-5">
+    <div class="card">
+        <div class="card-header">
+            <h2>🗺️ ESKAPE AMR Platform – Roadmap</h2>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-info">
+                 <strong>✨ Our vision:</strong> To build an accessible, open‑source genomic surveillance platform for ESKAPE pathogens and beyond.
+                <br><br>
+                <strong>⚠️ A note on timelines:</strong> The features below depend on <strong>funding, collaboration, and community feedback</strong>. If you love an idea and want to see it happen sooner, <a href="mailto:brownbeckley94@gmail.com">reach out</a> – your support (code, data, or resources) can move mountains.
+            </div>
+
+            <h4>🚀 In progress / near completion</h4>
+            <ul>
+                <li><strong>Machine learning for phenotypic resistance prediction</strong> – Train models on AMR gene profiles to predict resistance/susceptibility to key antibiotics (e.g., ciprofloxacin, erythromycin, gentamicin). This would help labs without AST capabilities to infer resistance patterns from genomic data.</li>
+                <li><strong>Phylogeny annotation tab</strong> – Upload a Newick tree; the platform will colour tips by MLST, AMR genes, and metadata, with PDF/SVG export.</li>
+                <li><strong>Interactive dashboards</strong> – Replace static images with Plotly charts (gene co‑occurrence, resistance heatmaps).</li>
+            </ul>
+
+            <h4>📋 Planned (next 6–12 months)</h4>
+            <ul>
+                <li><strong>RESTful API</strong> – Programmatic submission for power users and pipeline integration.</li>
+                <li><strong>Batch comparison tool</strong> – Compare AMR/virulence/plasmid profiles across dozens of isolates side‑by‑side.</li>
+                <li><strong>Automated PDF reports</strong> – Generate publication‑ready summary reports (including figures and tables).</li>
+                <li><strong>User accounts (optional)</strong> – Save job history, share results, and receive alerts.</li>
+            </ul>
+
+            <h4>🔮 On the horizon (dream big)</h4>
+            <ul>
+                <li><strong>Pan‑African phylogenetic surveillance network</strong> – Integrate with other African centres to share anonymised data and track high‑risk clones in real time.</li>
+                <li><strong>Resistance prediction from whole‑genome data</strong> – Use machine learning to predict MICs and resistance phenotypes for all ESKAPE pathogens.</li>
+                <li><strong>Mobile‑optimised results viewer</strong> – Designed for smartphones, the primary device for many African researchers.</li>
+                <li><strong>Submission to public databases (NCBI/ENA)</strong> – With user consent, directly submit resistance gene findings to global repositories.</li>
+            </ul>
+
+            <hr>
+
+            <div class="text-center mt-4">
+                <p class="fst-italic">“We built this platform with zero budget and a lot of stubbornness. Imagine what we could do with a little help.”</p>
+                <p><strong>🤝 Love an idea? Want to collaborate, fund a feature, or contribute code?</strong><br>
+                Contact <a href="mailto:brownbeckley94@gmail.com">brownbeckley94@gmail.com</a> or open an issue on <a href="https://github.com/bbeckley-hub" target="_blank">GitHub</a>.</p>
+                <p class="text-muted small">No contribution is too small – a cup of coffee, a dataset, or an hour of code all help.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

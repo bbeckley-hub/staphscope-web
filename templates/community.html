@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-5">
+    <div class="card">
+        <div class="card-header">
+            <h2>🤝 Community & Engagement</h2>
+        </div>
+        <div class="card-body">
+
+            <div class="alert alert-info">
+                <strong>We want to hear from you!</strong> The ESKAPE AMR Platform is built for researchers, clinicians, and public health workers. Your feedback helps us improve.
+            </div>
+
+            <!-- Moving Testimonial Cards (infinite horizontal scroll) -->
+            <h4 class="text-center">🌟 What our early users are saying</h4>
+            <div class="testimonial-scroll">
+                <div class="testimonial-track">
+                    <!-- Card 1 -->
+                    <div class="testimonial-card" style="background: #ffe0f0;">
+                        <p class="quote">“StaphScope gave me results in minutes – I didn’t need to learn the command line. A game changer for our lab in Accra.”</p>
+                        <p class="author">— Dr. Peter Churches, University of Ghana</p>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="testimonial-card" style="background: #e0f7fa;">
+                        <p class="quote">“The email notification feature saved me hours. I can submit jobs and go to the clinic, then come back to results.”</p>
+                        <p class="author">— Dr. Ama Serwaa, Korle Bu Teaching Hospital</p>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="testimonial-card" style="background: #fff0e0;">
+                        <p class="quote">“I compared 20 S. aureus isolates in one batch. The ultimate reporter’s gene‑centric table is exactly what we needed for surveillance.”</p>
+                        <p class="author">— Prof. John Mensah, NMIMR</p>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="testimonial-card" style="background: #e6f2ff;">
+                        <p class="quote">“The live logs helped me debug a misnamed FASTA file. I would have wasted hours otherwise.”</p>
+                        <p class="author">— Maria K., PhD student, UGMS</p>
+                    </div>
+                    <!-- Card 5 -->
+                    <div class="testimonial-card" style="background: #f0ffe0;">
+                        <p class="quote">“I love that I can skip modules I don’t need – saves compute time on my laptop.”</p>
+                        <p class="author">— Dr. Kwame O., Veterinary Services</p>
+                    </div>
+                    <!-- Card 6 -->
+                    <div class="testimonial-card" style="background: #ffe6e6;">
+                        <p class="quote">“The ability to upload a ZIP file of multiple genomes is brilliant. I processed 10 isolates in one go.”</p>
+                        <p class="author">— Evelyn A., Research Assistant</p>
+                    </div>
+                    <!-- Card 7 -->
+                    <div class="testimonial-card" style="background: #e6e6ff;">
+                        <p class="quote">“The tutorial video was extremely helpful. I set up my first job without any prior bioinformatics training.”</p>
+                        <p class="author">— James T., Lab technician</p>
+                    </div>
+                    <!-- Card 8 -->
+                    <div class="testimonial-card" style="background: #ffe0b3;">
+                        <p class="quote">“The country monitoring dashboard shows us where our users are coming from – valuable for reporting to our funders.”</p>
+                        <p class="author">— Brown Beckley, Platform creator</p>
+                    </div>
+                    <!-- Card 9 -->
+                    <div class="testimonial-card" style="background: #d9f0e6;">
+                        <p class="quote">“I’m impressed by the speed. A complete analysis of one genome took under 4 minutes.”</p>
+                        <p class="author">— Dr. Charles B., Kumasi Centre for Collaborative Research</p>
+                    </div>
+                    <!-- Card 10 -->
+                    <div class="testimonial-card" style="background: #f2e6ff;">
+                        <p class="quote">“The rotating science quotes in the footer make me smile every time I visit the site.”</p>
+                        <p class="author">— Anonymous user</p>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-muted text-center mt-3 small">Cards scroll automatically. Hover to pause.</p>
+
+            <hr>
+
+            <!-- Leave a comment section -->
+            <h4 class="text-center">💬 Leave your own testimonial or feedback</h4>
+            <div class="row justify-content-center my-4">
+                <div class="col-md-8">
+                    <form id="commentForm">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name *</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email (optional, not shown publicly)</label>
+                            <input type="email" class="form-control" id="email" name="email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="comment" class="form-label">Your comment or testimonial *</label>
+                            <textarea class="form-control" id="comment" name="comment" rows="4" required></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success">Submit feedback</button>
+                        </div>
+                    </form>
+                    <div id="commentMessage" class="mt-2 text-center"></div>
+                </div>
+            </div>
+
+            <!-- Approved comments (from admin) -->
+            <div id="approvedComments" class="mt-5">
+                <h5 class="text-center">📢 What others are saying</h5>
+                <div class="row g-3">
+                    {% for comment in approved_comments %}
+                    <div class="col-md-6">
+                        <div class="card bg-light border-0 shadow-sm">
+                            <div class="card-body">
+                                <p class="fst-italic">“{{ comment.comment }}”</p>
+                                <p class="text-end text-muted small">— {{ comment.name }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <p class="text-muted text-center">No approved comments yet. Be the first to leave a testimonial!</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="text-center mt-4">
+                <h4>🌍 Join the movement</h4>
+                <p>Whether you are a researcher, student, or clinician, you can help shape the future of AMR surveillance in Africa and beyond.</p>
+                <ul class="list-unstyled">
+                    <li>⭐ Star our GitHub repositories</li>
+                    <li>🐛 Report bugs or suggest features via the comment form above</li>
+                    <li>📢 Share the platform with your network</li>
+                    <li>🤝 Collaborate with us on new pipelines or training</li>
+                </ul>
+                <a href="mailto:brownbeckley94@gmail.com" class="btn btn-outline-primary">Contact us directly</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Horizontal scrolling testimonials */
+    .testimonial-scroll {
+        width: 100%;
+        overflow: hidden;
+        background: transparent;
+        padding: 20px 0;
+        position: relative;
+    }
+    .testimonial-track {
+        display: flex;
+        gap: 1.5rem;
+        width: max-content;
+        animation: scrollTestimonials 40s linear infinite;
+    }
+    .testimonial-track:hover {
+        animation-play-state: paused;
+    }
+    .testimonial-card {
+        width: 300px;
+        flex-shrink: 0;
+        background: white;
+        border-radius: 16px;
+        padding: 1.2rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+    .testimonial-card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    .testimonial-card .quote {
+        font-style: italic;
+        color: #1f2937;
+        margin-bottom: 0.75rem;
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+    .testimonial-card .author {
+        font-weight: bold;
+        text-align: right;
+        color: #4b5563;
+        font-size: 0.8rem;
+        margin-bottom: 0;
+    }
+    @keyframes scrollTestimonials {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+</style>
+
+<script>
+    // Clone the testimonial track to create seamless infinite scrolling
+    const track = document.querySelector('.testimonial-track');
+    if (track) {
+        const clone = track.cloneNode(true);
+        track.parentElement.appendChild(clone);
+        const clone2 = track.cloneNode(true);
+        track.parentElement.appendChild(clone2);
+    }
+
+    // Handle comment submission
+    const commentForm = document.getElementById('commentForm');
+    if (commentForm) {
+        commentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(commentForm);
+            const response = await fetch('/submit-comment', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            const msgDiv = document.getElementById('commentMessage');
+            if (response.ok) {
+                msgDiv.innerHTML = '<div class="alert alert-success">✅ ' + data.message + '</div>';
+                commentForm.reset();
+                setTimeout(() => msgDiv.innerHTML = '', 6000);
+            } else {
+                msgDiv.innerHTML = '<div class="alert alert-danger">❌ Error: ' + data.error + '</div>';
+            }
+        });
+    }
+</script>
+{% endblock %}

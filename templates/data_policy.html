@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-5">
+    <div class="card">
+        <div class="card-header">
+            <h2>🔒 Privacy & Data Policy</h2>
+        </div>
+        <div class="card-body">
+            <p>Your trust is our top priority. This policy explains how the ESKAPE AMR Platform handles your data.</p>
+
+            <h4>📂 Data collection and usage</h4>
+            <ul>
+                <li>We only collect the <strong>FASTA files you upload</strong> and the <strong>email address you optionally provide</strong>.</li>
+                <li>Uploaded genomes are processed <strong>only for the requested analysis</strong> (MLST, AMR, etc.).</li>
+                <li>We <strong>do not sell, rent, or share</strong> your data with any third party for commercial or marketing purposes.</li>
+                <li>Job metadata (country of origin, timestamp, tool used) is stored <strong>anonymously</strong> for usage statistics and platform improvement.</li>
+            </ul>
+
+            <h4>⏱️ Automatic data deletion (cleanup)</h4>
+            <ul>
+                <li>All job directories (including input FASTA files, output reports, and logs) are <strong>automatically deleted 24 hours after job completion</strong>.</li>
+                <li>If you need to keep your results, please download the ZIP archive before the cleanup runs.</li>
+                <li>The cleanup script runs daily at 2 AM (GMT) and removes any job older than 24 hours.</li>
+            </ul>
+
+            <h4>🔐 Data sovereignty and hosting</h4>
+            <ul>
+                <li>Currently, the platform is hosted on a personal laptop in Ghana. We are actively working to migrate to dedicated server infrastructure.</li>
+                <li>Once hosted on local servers, your data will remain under Ghanaian jurisdiction, in compliance with the <strong>Data Protection Act, 2012 (Act 843)</strong>.</li>
+                <li>No data is transferred outside Ghana without your explicit consent.</li>
+            </ul>
+
+            <h4>📧 Email notifications</h4>
+            <ul>
+                <li>If you provide your email, we use it only to send you a one‑time link to your results. We do not store your email after the job completes, nor do we send newsletters or marketing emails.</li>
+                <li>Your email is never shared with third parties.</li>
+            </ul>
+
+            <h4>🍪 Cookies and tracking</h4>
+            <ul>
+                <li>We do not use tracking cookies or analytics services (e.g., Google Analytics).</li>
+                <li>A session cookie may be used only for essential functionality (e.g., to remember your job ID). No personal data is stored in cookies.</li>
+            </ul>
+
+            <h4>🛡️ Third‑party services</h4>
+            <ul>
+                <li>The platform uses <strong>IPinfo</strong> to geolocate the approximate country of each submission (for usage statistics only). No IP address is permanently stored; only the country name is recorded.</li>
+                <li>Other external services (CDN for Bootstrap, Font Awesome) may log standard HTTP requests, but these are not under our control.</li>
+            </ul>
+
+            <h4>👤 Your rights</h4>
+            <p>You have the right to:</p>
+            <ul>
+                <li>Request deletion of your job data before the automatic cleanup (contact us).</li>
+                <li>Opt out of providing your email – no email, no notification.</li>
+                <li>Use the command‑line version if you prefer not to upload data to any server.</li>
+            </ul>
+
+            <h4>📞 Contact for data concerns</h4>
+            <p>If you have any questions about this policy or wish to request data removal, please contact:</p>
+            <p><strong>Brown Beckley</strong><br>
+            <a href="mailto:brownbeckley94@gmail.com">brownbeckley94@gmail.com</a></p>
+
+            <p class="text-muted mt-4"><small>This policy was last updated on 14 May 2026 and will be reviewed regularly as the platform evolves.</small></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

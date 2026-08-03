@@ -1,0 +1,514 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-5">
+    <!-- ESKAPE Platform Publications -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>📚 From the ESKAPE AMR Platform</h2>
+        </div>
+        <div class="card-body">
+            <div class="list-group">
+                <div class="list-group-item">
+                    <p class="mb-1"><strong>StaphScope</strong> – Beckley B, Amarh V. StaphScope: a species‑optimized computational pipeline for rapid and accessible <em>Staphylococcus aureus</em> genotyping and surveillance. <em>BMC Genomics</em>. 2026;27:261. doi:10.1186/s12864-026-12609-x</p>
+                    <div>
+                        <a href="https://doi.org/10.1186/s12864-026-12609-x" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                        <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Beckley B, Amarh V. StaphScope: a species‑optimized computational pipeline for rapid and accessible Staphylococcus aureus genotyping and surveillance. BMC Genomics. 2026;27:261. doi:10.1186/s12864-026-12609-x'>📋 Copy citation</button>
+                    </div>
+                </div>
+                <div class="list-group-item">
+                    <p class="mb-1"><strong>EcoliTyper</strong> – Beckley B, Amarh V. EcoliTyper: a species-optimized computational pipeline for comprehensive <em>Staphylococcus aureus</em> genotyping and surveillance of Escherichia coli.<em> BMC Bioinformatics</em>. 2026;X:X. https://doi.org/10.1186/s12859-026-06529-6</p>
+                    <div>
+                        <a href="https://doi.org/10.1186/s12859-026-06529-6" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                        <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Beckley, B., Vincent, A. EcoliTyper: a species-optimized computational pipeline for comprehensive genotyping and surveillance of Escherichia coli. BMC Bioinformatics (2026). https://doi.org/10.1186/s12859-026-06529-6'>📋 Copy citation</button>
+                    </div>
+                </div>
+                <div class="list-group-item">
+                    <p class="mb-1"><strong>Comparative genomics of MRSA ST152 in Ghana</strong> – Beckley B, Amarh V, Olalekan A, et al. Comparative genomics reveals polyphyletic emergence of methicillin‑resistant <em>Staphylococcus aureus</em> ST152 from a diverse methicillin‑susceptible population in Ghana. <em>BMC Microbiol</em>. 2026. doi:10.1186/s12866-026-05131-3</p>
+                    <div>
+                        <a href="https://doi.org/10.1186/s12866-026-05131-3" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                        <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Beckley B, Amarh V, Olalekan A, et al. Comparative genomics reveals polyphyletic emergence of methicillin-resistant Staphylococcus aureus ST152 from a diverse methicillin-susceptible population in Ghana. BMC Microbiol. 2026. doi:10.1186/s12866-026-05131-3'>📋 Copy citation</button>
+                    </div>
+                </div>
+                <div class="list-group-item text-muted">
+                    More publications from other pipelines (AcinetoScope, PseudoScope, etc.) will appear here once available.
+                </div>
+            </div>
+
+    <!-- Key Databases and Methods (Accordion) -->
+    <div class="card">
+        <div class="card-header">
+            <h2>🔧 Key Databases & Methods</h2>
+        </div>
+        <div class="card-body">
+            <div class="accordion" id="refAccordion">
+
+                <!-- 1. SCCmecFinder -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading1">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                            SCCmecFinder – Kaya et al. (2018) mSphere
+                        </button>
+                    </h2>
+                    <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Kaya H, Hasman H, Larsen J, Stegger M, Johannesen TB, Allesøe RL, Lemvigh CK, Aarestrup FM, Lund O, Larsen AR. SCCmecFinder, a Web‑Based Tool for Typing of Staphylococcal Cassette Chromosome mec in <em>Staphylococcus aureus</em> Using Whole‑Genome Sequence Data. <em>mSphere</em>. 2018;3(1):e00612-17. doi:10.1128/mSphere.00612-17. PMID: 29468193.</p>
+                            <div>
+                                <a href="https://doi.org/10.1128/mSphere.00612-17" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Kaya H, Hasman H, Larsen J, et al. SCCmecFinder, a Web‑Based Tool for Typing of Staphylococcal Cassette Chromosome mec in Staphylococcus aureus Using Whole‑Genome Sequence Data. mSphere. 2018;3(1):e00612-17. doi:10.1128/mSphere.00612-17'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. CHTyper -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading2">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                            CHTyper – Roer et al. (2018) J Clin Microbiol
+                        </button>
+                    </h2>
+                    <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Roer L, Johannesen TB, Hansen F, Stegger M, Tchesnokova V, Sokurenko E, Garibay N, Allesøe R, Thomsen MCF, Lund O, Hasman H, Hammerum AM. CHTyper, a Web Tool for Subtyping of Extraintestinal Pathogenic <em>Escherichia coli</em> Based on the <em>fumC</em> and <em>fimH</em> Alleles. <em>J Clin Microbiol</em>. 2018;56(4):e00063-18. doi:10.1128/JCM.00063-18.</p>
+                            <div>
+                                <a href="https://doi.org/10.1128/JCM.00063-18" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Roer L, et al. CHTyper, a Web Tool for Subtyping of Extraintestinal Pathogenic Escherichia coli Based on the fumC and fimH Alleles. J Clin Microbiol. 2018;56(4):e00063-18. doi:10.1128/JCM.00063-18'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. AMRFinderPlus -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading3">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+                            AMRFinderPlus – Feldgarden et al. (2021) Sci Rep
+                        </button>
+                    </h2>
+                    <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Feldgarden M, Brover V, Gonzalez-Escalona N, Frye JG, Haendiges J, Haft DH, Hoffmann M, Pettengill JB, Prasad AB, Tillman GE, Tyson GH, Klimke W. AMRFinderPlus and the Reference Gene Catalog facilitate examination of the genomic links among antimicrobial resistance, stress response, and virulence. <em>Sci Rep</em>. 2021;11(1):12728. doi:10.1038/s41598-021-91456-0.</p>
+                            <div>
+                                <a href="https://doi.org/10.1038/s41598-021-91456-0" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Feldgarden M, et al. AMRFinderPlus and the Reference Gene Catalog facilitate examination of the genomic links among antimicrobial resistance, stress response, and virulence. Sci Rep. 2021;11(1):12728. doi:10.1038/s41598-021-91456-0'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. CARD -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading4">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4">
+                            CARD – McArthur et al. (2013) Antimicrob Agents Chemother
+                        </button>
+                    </h2>
+                    <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>McArthur AG, Waglechner N, Nizam F, Yan A, Azad MA, Baylay AJ, Bhullar K, Canova MJ, De Pascale G, Ejim L, Kalan L, King AM, Koteva K, Morar M, Mulvey MR, O'Brien JS, Pawlowski AC, Piddock LJ, Spanogiannopoulos P, Sutherland AD, Tang I, Taylor PL, Thaker M, Wang W, Yan M, Yu T, Wright GD. The comprehensive antibiotic resistance database. <em>Antimicrob Agents Chemother</em>. 2013;57(7):3348-57. doi:10.1128/AAC.00419-13.</p>
+                            <div>
+                                <a href="https://doi.org/10.1128/AAC.00419-13" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='McArthur AG, et al. The comprehensive antibiotic resistance database. Antimicrob Agents Chemother. 2013;57(7):3348-57. doi:10.1128/AAC.00419-13'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. ARG-ANNOT -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading5">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5">
+                            ARG-ANNOT – Gupta et al. (2014) Antimicrob Agents Chemother
+                        </button>
+                    </h2>
+                    <div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Gupta SK, Padmanabhan BR, Diene SM, Lopez-Rojas R, Kempf M, Landraud L, Rolain JM. ARG-ANNOT, a new bioinformatic tool to discover antibiotic resistance genes in bacterial genomes. <em>Antimicrob Agents Chemother</em>. 2014;58(1):212-20. doi:10.1128/AAC.01310-13.</p>
+                            <div>
+                                <a href="https://doi.org/10.1128/AAC.01310-13" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Gupta SK, et al. ARG-ANNOT, a new bioinformatic tool to discover antibiotic resistance genes in bacterial genomes. Antimicrob Agents Chemother. 2014;58(1):212-20. doi:10.1128/AAC.01310-13'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. MEGARes 2.0 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading6">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6">
+                            MEGARes 2.0 – Doster et al. (2020) Nucleic Acids Res
+                        </button>
+                    </h2>
+                    <div id="collapse6" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Doster E, Lakin SM, Dean CJ, Wolfe C, Young JG, Boucher C, Belk KE, Noyes NR, Morley PS. MEGARes 2.0: a database for classification of antimicrobial drug, biocide and metal resistance determinants in metagenomic sequence data. <em>Nucleic Acids Res</em>. 2020;48(D1):D561-D569. doi:10.1093/nar/gkz1010.</p>
+                            <div>
+                                <a href="https://doi.org/10.1093/nar/gkz1010" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Doster E, et al. MEGARes 2.0: a database for classification of antimicrobial drug, biocide and metal resistance determinants in metagenomic sequence data. Nucleic Acids Res. 2020;48(D1):D561-D569. doi:10.1093/nar/gkz1010'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. VFDB -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading7">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse7">
+                            VFDB – Chen et al. (2012) Nucleic Acids Res
+                        </button>
+                    </h2>
+                    <div id="collapse7" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Chen L, Xiong Z, Sun L, Yang J, Jin Q. VFDB 2012 update: toward the genetic diversity and molecular evolution of bacterial virulence factors. <em>Nucleic Acids Res</em>. 2012;40(Database issue):D641-5. doi:10.1093/nar/gkr989.</p>
+                            <div>
+                                <a href="https://doi.org/10.1093/nar/gkr989" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Chen L, et al. VFDB 2012 update: toward the genetic diversity and molecular evolution of bacterial virulence factors. Nucleic Acids Res. 2012;40(Database issue):D641-5. doi:10.1093/nar/gkr989'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8. Carbapenem-resistant E. coli clone -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading8">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse8">
+                            Carbapenem-resistant E. coli – Walker et al. (2025) Nat Commun
+                        </button>
+                    </h2>
+                    <div id="collapse8" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Walker LL, Phan MD, Permana B, Lian ZJ, Nhu NTK, Cuddihy T, Peters KM, Ramsay KA, Stewart C, Pfennigwerth N, Kidd TJ, Harris PNA, Paterson DL, Sweet MJ, Forde BM, Schembri MA. Emergence of a carbapenem-resistant atypical uropathogenic <em>Escherichia coli</em> clone as an increasing cause of urinary tract infection. <em>Nat Commun</em>. 2025;16(1):8200. doi:10.1038/s41467-025-63477-0.</p>
+                            <div>
+                                <a href="https://doi.org/10.1038/s41467-025-63477-0" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Walker LL, et al. Emergence of a carbapenem-resistant atypical uropathogenic Escherichia coli clone as an increasing cause of urinary tract infection. Nat Commun. 2025;16(1):8200. doi:10.1038/s41467-025-63477-0'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9. PlasmidFinder -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading9">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse9">
+                            PlasmidFinder – Carattoli et al. (2014) Antimicrob Agents Chemother
+                        </button>
+                    </h2>
+                    <div id="collapse9" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Carattoli A, Zankari E, García-Fernández A, Voldby Larsen M, Lund O, Villa L, Møller Aarestrup F, Hasman H. <em>In silico</em> detection and typing of plasmids using PlasmidFinder and plasmid multilocus sequence typing. <em>Antimicrob Agents Chemother</em>. 2014;58(7):3895-903. doi:10.1128/AAC.02412-14.</p>
+                            <div>
+                                <a href="https://doi.org/10.1128/AAC.02412-14" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Carattoli A, et al. In silico detection and typing of plasmids using PlasmidFinder and plasmid multilocus sequence typing. Antimicrob Agents Chemother. 2014;58(7):3895-903. doi:10.1128/AAC.02412-14'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 10. In silico serotyping of E. coli (Joensen et al. 2015) -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading10">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse10">
+                            In silico serotyping – Joensen et al. (2015) J Clin Microbiol
+                        </button>
+                    </h2>
+                    <div id="collapse10" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Joensen KG, Tetzschner AM, Iguchi A, Aarestrup FM, Scheutz F. Rapid and easy in silico serotyping of <em>Escherichia coli</em> using whole genome sequencing (WGS) data. <em>J Clin Microbiol</em>. 2015;53(8):2410-2426. doi:10.1128/JCM.00008-15.</p>
+                            <div>
+                                <a href="https://doi.org/10.1128/JCM.00008-15" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Joensen KG, Tetzschner AM, Iguchi A, Aarestrup FM, Scheutz F. Rapid and easy in silico serotyping of Escherichia coli using whole genome sequencing (WGS) data. J Clin Microbiol. 2015;53(8):2410-2426. doi:10.1128/JCM.00008-15'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 11. EzClermont / Clermont et al. 2013 (phylogrouping) -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading11">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse11">
+                            EzClermont – Clermont et al. (2013) Environ Microbiol Rep
+                        </button>
+                    </h2>
+                    <div id="collapse11" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Clermont O, Christenson JK, Denamur E, Gordon DM. The Clermont <em>Escherichia coli</em> phylo‑typing method revisited: improvement of specificity and detection of new phylo‑groups. <em>Environ Microbiol Rep</em>. 2013;5(1):58-65. doi:10.1111/1758-2229.12019. PMID: 23757131.</p>
+                            <p>EzClermont GitHub: <a href="https://github.com/nickp60/EzClermont" target="_blank">https://github.com/nickp60/EzClermont</a></p>
+                            <div>
+                                <a href="https://doi.org/10.1111/1758-2229.12019" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Clermont O, Christenson JK, Denamur E, Gordon DM. The Clermont Escherichia coli phylo-typing method revisited: improvement of specificity and detection of new phylo-groups. Environ Microbiol Rep. 2013;5(1):58-65. doi:10.1111/1758-2229.12019'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 12. spa typing comparison (Bartels et al. 2014) -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading12">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse12">
+                            spa typing comparison – Bartels et al. (2014) J Clin Microbiol
+                        </button>
+                    </h2>
+                    <div id="collapse12" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Bartels MD, Petersen A, Worning P, Nielsen JB, Larner-Svensson H, Johansen HK, Andersen LP, Jarløv JO, Boye K, Larsen AR, Westh H. Comparing whole‑genome sequencing with Sanger sequencing for <em>spa</em> typing of methicillin‑resistant <em>Staphylococcus aureus</em>. <em>J Clin Microbiol</em>. 2014;52(12):4305-8. doi:10.1128/JCM.01979-14.</p>
+                            <div>
+                                <a href="https://doi.org/10.1128/JCM.01979-14" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Bartels MD, et al. Comparing whole-genome sequencing with Sanger sequencing for spa typing of methicillin-resistant Staphylococcus aureus. J Clin Microbiol. 2014;52(12):4305-8. doi:10.1128/JCM.01979-14'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 13. spa typing software (Harmsen et al. 2003) -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading13">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse13">
+                            spa typing software – Harmsen et al. (2003) J Clin Microbiol
+                        </button>
+                    </h2>
+                    <div id="collapse13" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Harmsen D, Claus H, Witte W, Rothgänger J, Claus H, Turnwald D, Vogel U. Typing of methicillin‑resistant <em>Staphylococcus aureus</em> in a university hospital setting by using novel software for <em>spa</em> repeat determination and database management. <em>J Clin Microbiol</em>. 2003;41(12):5442-8. doi:10.1128/JCM.41.12.5442-5448.2003. PMID: 14662923; PMCID: PMC309029.</p>
+                            <div>
+                                <a href="https://doi.org/10.1128/JCM.41.12.5442-5448.2003" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Harmsen D, et al. Typing of methicillin-resistant Staphylococcus aureus in a university hospital setting by using novel software for spa repeat determination and database management. J Clin Microbiol. 2003;41(12):5442-8. doi:10.1128/JCM.41.12.5442-5448.2003'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 14. spa outbreak detection (Mellmann et al. 2006) -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading14">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse14">
+                            spa outbreak detection – Mellmann et al. (2006) PLoS Med
+                        </button>
+                    </h2>
+                    <div id="collapse14" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Mellmann A, Friedrich AW, Rosenkötter N, Rothgänger J, Karch H, Reintjes R, Harmsen D. Automated DNA sequence‑based early warning system for the detection of methicillin‑resistant <em>Staphylococcus aureus</em> outbreaks. <em>PLoS Med</em>. 2006;3(3):e33. doi:10.1371/journal.pmed.0030033. PMID: 16396609; PMCID: PMC1325475.</p>
+                            <div>
+                                <a href="https://doi.org/10.1371/journal.pmed.0030033" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Mellmann A, et al. Automated DNA sequence-based early warning system for the detection of methicillin-resistant Staphylococcus aureus outbreaks. PLoS Med. 2006;3(3):e33. doi:10.1371/journal.pmed.0030033'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 15. In silico serotyping of E. coli (Ingle et al. 2016) – already present in your original but renumber -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading15">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse15">
+                            E. coli serotyping (Ingle et al.) – Ingle et al. (2016) Microb Genom
+                        </button>
+                    </h2>
+                    <div id="collapse15" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Ingle DJ, Valcanis M, Kuzevski A, Tauschek M, Inouye M, Stinear T, Levine MM, Robins-Browne RM, Holt KE. <em>In silico</em> serotyping of <em>E. coli</em> from short read data identifies limited novel O‑loci but extensive diversity of O:H serotype combinations within and between pathogenic lineages. <em>Microb Genom</em>. 2016;2(7):e000064. doi:10.1099/mgen.0.000064.</p>
+                            <div>
+                                <a href="https://doi.org/10.1099/mgen.0.000064" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Ingle DJ, et al. In silico serotyping of E. coli from short read data identifies limited novel O-loci but extensive diversity of O:H serotype combinations within and between pathogenic lineages. Microb Genom. 2016;2(7):e000064. doi:10.1099/mgen.0.000064'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 16. BacMet -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading16">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse16">
+                            BacMet – Pal et al. (2014) Nucleic Acids Res
+                        </button>
+                    </h2>
+                    <div id="collapse16" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Pal C, Bengtsson-Palme J, Rensing C, Kristiansson E, Larsson DG. BacMet: antibacterial biocide and metal resistance genes database. <em>Nucleic Acids Res</em>. 2014;42(Database issue):D737-43. doi:10.1093/nar/gkt1252.</p>
+                            <div>
+                                <a href="https://doi.org/10.1093/nar/gkt1252" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Pal C, et al. BacMet: antibacterial biocide and metal resistance genes database. Nucleic Acids Res. 2014;42(Database issue):D737-43. doi:10.1093/nar/gkt1252'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 17. Biopython -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading17">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse17">
+                            Biopython – Cock et al. (2009) Bioinformatics
+                        </button>
+                    </h2>
+                    <div id="collapse17" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Cock PJ, Antao T, Chang JT, Chapman BA, Cox CJ, Dalke A, Friedberg I, Hamelryck T, Kauff F, Wilczynski B, de Hoon MJ. Biopython: freely available Python tools for computational molecular biology and bioinformatics. <em>Bioinformatics</em>. 2009;25(11):1422-3. doi:10.1093/bioinformatics/btp163.</p>
+                            <div>
+                                <a href="https://doi.org/10.1093/bioinformatics/btp163" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Cock PJ, et al. Biopython: freely available Python tools for computational molecular biology and bioinformatics. Bioinformatics. 2009;25(11):1422-3. doi:10.1093/bioinformatics/btp163'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 18. BIGSdb / PubMLST -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading18">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse18">
+                            BIGSdb – Jolley et al. (2018) Wellcome Open Res
+                        </button>
+                    </h2>
+                    <div id="collapse18" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Jolley KA, Bray JE, Maiden MCJ. Open‑access bacterial population genomics: BIGSdb software, the PubMLST.org website and their applications. <em>Wellcome Open Res</em>. 2018;3:124. doi:10.12688/wellcomeopenres.14826.1.</p>
+                            <div>
+                                <a href="https://doi.org/10.12688/wellcomeopenres.14826.1" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Jolley KA, Bray JE, Maiden MCJ. Open-access bacterial population genomics: BIGSdb software, the PubMLST.org website and their applications. Wellcome Open Res. 2018;3:124. doi:10.12688/wellcomeopenres.14826.1'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 19. ResFinder -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading19">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse19">
+                            ResFinder – Florensa et al. (2022) Microb Genom
+                        </button>
+                    </h2>
+                    <div id="collapse19" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Florensa AF, Kaas RS, Clausen PTLC, Aytan-Aktug D, Aarestrup FM. ResFinder – an open online resource for identification of antimicrobial resistance genes in next‑generation sequencing data and prediction of phenotypes from genotypes. <em>Microb Genom</em>. 2022;8(1):000748. doi:10.1099/mgen.0.000748.</p>
+                            <div>
+                                <a href="https://doi.org/10.1099/mgen.0.000748" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Florensa AF, et al. ResFinder – an open online resource for identification of antimicrobial resistance genes in next-generation sequencing data and prediction of phenotypes from genotypes. Microb Genom. 2022;8(1):000748. doi:10.1099/mgen.0.000748'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 20. MLST (Seemann, GitHub) -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading20">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse20">
+                            MLST – Seemann T. (2018) GitHub
+                        </button>
+                    </h2>
+                    <div id="collapse20" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Seemann T. MLST: Scan contig files against PubMLST typing schemes. GitHub repository. 2018. https://github.com/tseemann/mlst</p>
+                            <div>
+                                <a href="https://github.com/tseemann/mlst" target="_blank" class="btn btn-sm btn-outline-primary">🔗 GitHub</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Seemann T. MLST: Scan contig files against PubMLST typing schemes. GitHub. 2018. https://github.com/tseemann/mlst'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 21. Kaptive 3 -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading21">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse21">
+                            Kaptive 3 – Stanton et al. (2025) Microb Genom
+                        </button>
+                    </h2>
+                    <div id="collapse21" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Stanton TD, Hetland MAK, Löhr IH, Holt KE, Wyres KL. Fast and accurate <em>in silico</em> antigen typing with Kaptive 3. <em>Microb Genom</em>. 2025;11(6):001428. doi:10.1099/mgen.0.001428.</p>
+                            <div>
+                                <a href="https://doi.org/10.1099/mgen.0.001428" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Stanton TD, et al. Fast and accurate in silico antigen typing with Kaptive 3. Microb Genom. 2025;11(6):001428. doi:10.1099/mgen.0.001428'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 22. ABRicate (Seemann, GitHub) -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading22">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse22">
+                            ABRicate – Seemann T. (2024) GitHub
+                        </button>
+                    </h2>
+                    <div id="collapse22" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Seemann T. ABRicate: mass screening of contigs for antibiotic resistance genes. GitHub repository. 2024. https://github.com/tseemann/abricate</p>
+                            <div>
+                                <a href="https://github.com/tseemann/abricate" target="_blank" class="btn btn-sm btn-outline-primary">🔗 GitHub</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Seemann T. ABRicate: mass screening of contigs for antibiotic resistance genes. GitHub. 2024. https://github.com/tseemann/abricate'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 23.AgrVATE -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading21">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse21">
+                            AgrVATE – Raghuram et al. (2023) Microbiol Spectr
+                        </button>
+                    </h2>
+                    <div id="collapse21" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p>Raghuram V, Alexander AM, Loo HQ, Petit RA 3rd, Goldberg JB, Read TD. Species-Wide Phylogenomics of the Staphylococcus aureus Agr Operon<em>Revealed Convergent Evolution</em> of Frameshift Mutations. <em>Microbiol Spectr</em>. 23;10(1):e0133421. doi: 10.1128/spectrum.01334-21.</p>
+                            <div>
+                                <a href="https://doi.org/10.1128/spectrum.01334-21" target="_blank" class="btn btn-sm btn-outline-primary">🔗 DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Raghuram V, Alexander AM, Loo HQ, Petit RA 3rd, Goldberg JB, Read TD. Species-Wide Phylogenomics of the Staphylococcus aureus Agr Operon Revealed Convergent Evolution of Frameshift Mutations. Microbiol Spectr. 2022 Feb 23;10(1):e0133421. doi: 10.1128/spectrum.01334-21. Epub 2022 Jan 19. PMID: 35044202; PMCID: PMC8768832.'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 24. P. aeruginosa serotyping (Thrane et al. 2016) + pasty/camlhmp/BLAST+ -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading23">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse23">
+                            P. aeruginosa serotyping – Thrane et al. (2016) / pasty / camlhmp / BLAST+
+                        </button>
+                    </h2>
+                    <div id="collapse23" class="accordion-collapse collapse" data-bs-parent="#refAccordion">
+                        <div class="accordion-body">
+                            <p><strong>Serogroup Method:</strong> Thrane SW, Taylor VL, Lund O, Lam JS, Jelsbak L. Application of Whole‑Genome Sequencing Data for O‑Specific Antigen Analysis and In Silico Serotyping of <em>Pseudomonas aeruginosa</em> Isolates. <em>J Clin Microbiol</em>. 2016;54(7):1782–1788. doi:10.1128/JCM.00349-16. PMID: 27098958.</p>
+                            <p><strong>pasty:</strong> Petit III RA. pasty: A tool easily taken advantage of for <em>in silico</em> serogrouping of <em>Pseudomonas aeruginosa</em> isolates. GitHub.</p>
+                            <p><strong>camlhmp:</strong> Petit III RA. camlhmp: Classification through yAML Heuristic Mapping Protocol. GitHub.</p>
+                            <p><strong>BLAST+:</strong> Camacho C, Coulouris G, Avagyan V, Ma N, Papadopoulos J, Bealer K, Madden TL. BLAST+: architecture and applications. <em>BMC Bioinformatics</em>. 2009;10:421. doi:10.1186/1471-2105-10-421</p>
+                            <div>
+                                <a href="https://doi.org/10.1128/JCM.00349-16" target="_blank" class="btn btn-sm btn-outline-primary">🔗 Thrane DOI</a>
+                                <a href="https://doi.org/10.1186/1471-2105-10-421" target="_blank" class="btn btn-sm btn-outline-primary ms-1">🔗 BLAST+ DOI</a>
+                                <button class="btn btn-sm btn-outline-secondary copy-btn" data-citation='Thrane SW, et al. Application of Whole‑Genome Sequencing Data for O‑Specific Antigen Analysis and In Silico Serotyping of Pseudomonas aeruginosa Isolates. J Clin Microbiol. 2016;54(7):1782–1788. PMID: 27098958. and Petit RA (pasty/camlhmp). BLAST+: Camacho C, et al. BMC Bioinformatics. 2009;10:421.'>📋 Copy citation</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Suggested Citation / Acknowledgement -->
+    <div class="card mt-5">
+        <div class="card-header">
+            <h2>📝 Suggested Citation & Acknowledgement</h2>
+        </div>
+        <div class="card-body">
+            <p>If you use the ESKAPE AMR Platform (or any of its individual pipelines) in your research, we suggest you cite the appropriate tools and databases as follows:</p>
+            <div class="alert alert-secondary">
+                <p class="mb-0"><strong>Example for StaphScope:</strong> “Genomic analysis was performed using StaphScope [Beckley &amp; Amarh, 2026], which integrates MLST [Seemann, 2018] using the PubMLST database [Jolley et al., 2018], ABRicate [Seemann, 2018], AMRFinderPlus [Feldgarden et al., 2021], and SCCmecFinder [Kaya et al., 2018] for comprehensive <em>S. aureus</em> characterization. Antimicrobial resistance genes were identified using the CARD [McArthur et al., 2013] and ResFinder [Florensa et al., 2022] databases. For biocide and heavy metal resistance genes, BacMet [Pal et al., 2014] was used. Virulence and plasmid screening were performed with ABRicate using the VFDB [Chen et al., 2012] and PlasmidFinder [Carattoli et al., 2014] databases.”</p>
+            </div>
+            <p class="mt-3">For other pipelines (AcinetoScope, EcoliTyper, etc.), please refer to their respective GitHub repositories and the key database citations listed above. A full list of references is available in the accordion above.</p>
+            <p class="text-muted small">You can use the “Copy citation” buttons next to each reference to easily add them to your bibliography.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const citation = this.getAttribute('data-citation');
+            navigator.clipboard.writeText(citation).then(() => {
+                const originalText = this.innerHTML;
+                this.innerHTML = '✓ Copied!';
+                setTimeout(() => { this.innerHTML = originalText; }, 2000);
+            });
+        });
+    });
+</script>
+{% endblock %}

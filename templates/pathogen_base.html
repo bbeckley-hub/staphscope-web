@@ -1,0 +1,808 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    :root {
+        --tool-color: {{ pipeline.color }};
+        --tool-color-light: {{ pipeline.color }}22;
+        --tool-color-soft: {{ pipeline.color }}11;
+    }
+
+    .tool-page {
+        background: #f1f5f9;
+        min-height: calc(100vh - 200px);
+        padding: 2rem 0;
+    }
+    .tool-card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+        overflow: hidden;
+        background: #ffffff;
+    }
+    .tool-card-header {
+        background: var(--tool-color);
+        padding: 1.25rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+        border-bottom: none;
+    }
+    .tool-card-header .tool-name {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #ffffff;
+        margin: 0;
+    }
+    .tool-card-header .tool-version {
+        background: rgba(255,255,255,0.2);
+        color: #ffffff;
+        padding: 0.15rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        margin-left: 0.5rem;
+    }
+    .tool-card-header .btn-outline-light {
+        color: #ffffff;
+        border-color: rgba(255,255,255,0.4);
+        border-radius: 20px;
+    }
+    .tool-card-header .btn-outline-light:hover {
+        background: rgba(255,255,255,0.15);
+        border-color: #ffffff;
+        color: #ffffff;
+    }
+    .tool-card-body {
+        padding: 2rem;
+        background: #ffffff;
+    }
+
+    /* Layout */
+    .tool-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2.5rem;
+    }
+    @media (max-width: 992px) {
+        .tool-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+    }
+
+    /* Section labels */
+    .section-label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: #64748b;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #f1f5f9;
+    }
+
+    /* File upload area */
+    .file-upload-area {
+        border: 2px dashed var(--tool-color);
+        border-radius: 12px;
+        padding: 1.5rem 1rem;
+        text-align: center;
+        transition: border-color 0.2s;
+        cursor: pointer;
+        background: #fafcff;
+    }
+    .file-upload-area:hover {
+        border-color: var(--tool-color);
+        background: var(--tool-color-light);
+    }
+    .file-upload-area .upload-icon {
+        font-size: 1.8rem;
+        color: var(--tool-color);
+        margin-bottom: 0.3rem;
+    }
+
+    /* File list */
+    .file-list-container {
+        margin-top: 0.75rem;
+        max-height: 200px;
+        overflow-y: auto;
+        border: 2px solid var(--tool-color);
+        border-radius: 12px;
+        background: #f8fafc;
+        padding: 0.5rem 0.75rem;
+    }
+    .file-list-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #ffffff;
+        padding: 0.4rem 0.75rem;
+        border-radius: 8px;
+        margin-bottom: 0.3rem;
+        border: 1px solid #f1f5f9;
+        font-size: 0.85rem;
+    }
+    .file-list-item .file-name {
+        color: #1e293b;
+        font-weight: 500;
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .file-list-item .file-size {
+        color: #94a3b8;
+        font-size: 0.75rem;
+        margin: 0 0.75rem;
+        flex-shrink: 0;
+    }
+    .file-list-item .file-remove {
+        background: none;
+        border: none;
+        color: #ef4444;
+        cursor: pointer;
+        font-size: 1.1rem;
+        line-height: 1;
+        padding: 0 0.25rem;
+        transition: color 0.2s;
+        flex-shrink: 0;
+    }
+    .file-list-item .file-remove:hover {
+        color: #dc2626;
+    }
+    .file-count-badge {
+        background: var(--tool-color-light);
+        color: var(--tool-color);
+        padding: 0.1rem 0.6rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    /* Upload progress */
+    .upload-progress-container {
+        display: none;
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f8fafc;
+        border-radius: 12px;
+        border: 2px solid var(--tool-color);
+    }
+    .upload-progress-container.active {
+        display: block;
+    }
+    .upload-progress-container .progress {
+        height: 8px;
+        border-radius: 4px;
+        background: #e2e8f0;
+    }
+    .upload-progress-container .progress-bar {
+        border-radius: 4px;
+        transition: width 0.3s ease;
+        background: var(--tool-color);
+    }
+
+    /* Email input */
+    .email-input {
+        border: 2px solid var(--tool-color) !important;
+        border-radius: 10px !important;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .email-input:focus {
+        border-color: var(--tool-color) !important;
+        box-shadow: 0 0 0 0.2rem var(--tool-color-light) !important;
+    }
+
+    /* Modules grid */
+    .module-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem 1rem;
+        background: #f8fafc;
+        padding: 1rem;
+        border-radius: 12px;
+        border: 2px solid var(--tool-color);
+    }
+    @media (max-width: 576px) {
+        .module-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    .module-grid .form-check-label {
+        color: #1e293b;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+    .module-grid .form-check-input {
+        border: 2px solid var(--tool-color);
+        border-radius: 4px;
+        transition: all 0.2s;
+    }
+    .module-grid .form-check-input:checked {
+        background-color: var(--tool-color);
+        border-color: var(--tool-color);
+    }
+    .module-grid .form-check-input:focus {
+        border-color: var(--tool-color);
+        box-shadow: 0 0 0 0.2rem var(--tool-color-light);
+    }
+    .module-grid .module-desc {
+        font-size: 0.75rem;
+        font-weight: 400;
+        color: #64748b;
+        display: block;
+        margin-top: 0.1rem;
+        line-height: 1.3;
+    }
+
+    /* Parameters */
+    .param-group {
+        background: #f8fafc;
+        padding: 0.9rem 1.25rem;
+        border-radius: 12px;
+        margin-bottom: 0.75rem;
+        border: 2px solid var(--tool-color);
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .param-group:hover {
+        border-color: var(--tool-color);
+        box-shadow: 0 2px 8px var(--tool-color-light);
+    }
+    .param-group label {
+        font-weight: 500;
+        font-size: 0.9rem;
+        color: #1e293b;
+        margin-bottom: 0.2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .param-group .param-default {
+        font-weight: 400;
+        color: #94a3b8;
+        font-size: 0.75rem;
+    }
+    .param-group .param-help {
+        font-size: 0.75rem;
+        color: #64748b;
+        margin-top: 0.15rem;
+    }
+
+    /* Custom slider with fill */
+    input[type="range"].custom-slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 6px;
+        border-radius: 3px;
+        outline: none;
+        background: #e2e8f0;
+        transition: background 0.1s;
+    }
+    input[type="range"].custom-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--tool-color);
+        cursor: pointer;
+        border: 2px solid #ffffff;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+        position: relative;
+        z-index: 2;
+    }
+    input[type="range"].custom-slider::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--tool-color);
+        cursor: pointer;
+        border: 2px solid #ffffff;
+    }
+    input[type="range"].custom-slider::-webkit-slider-runnable-track {
+        height: 6px;
+        border-radius: 3px;
+        background: linear-gradient(to right, var(--tool-color) 0%, var(--tool-color) var(--fill, 0%), #e2e8f0 var(--fill, 0%), #e2e8f0 100%);
+    }
+    input[type="range"].custom-slider::-moz-range-track {
+        height: 6px;
+        border-radius: 3px;
+        background: #e2e8f0;
+    }
+    input[type="range"].custom-slider::-moz-range-progress {
+        height: 6px;
+        border-radius: 3px;
+        background: var(--tool-color);
+    }
+    .slider-value {
+        font-weight: 600;
+        color: var(--tool-color);
+        min-width: 36px;
+        text-align: right;
+        font-size: 0.9rem;
+    }
+
+    /* Submit button */
+    .btn-submit {
+        background: var(--tool-color);
+        border: none;
+        color: #ffffff;
+        padding: 0.7rem 3rem;
+        border-radius: 40px;
+        font-weight: 500;
+        transition: all 0.2s;
+        box-shadow: 0 2px 8px var(--tool-color-light);
+    }
+    .btn-submit:hover:not(:disabled) {
+        background: var(--tool-color);
+        filter: brightness(0.92);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px var(--tool-color-light);
+        color: #ffffff;
+    }
+    .btn-submit:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        filter: none;
+        transform: none;
+        box-shadow: none;
+    }
+
+    /* Citation card */
+    .citation-card {
+        background: #f8fafc;
+        border: 2px solid var(--tool-color);
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        margin-top: 1.5rem;
+    }
+    .citation-card .citation-text {
+        font-size: 0.85rem;
+        color: #475569;
+        margin: 0;
+    }
+    .citation-card .citation-text a {
+        color: var(--tool-color);
+        text-decoration: none;
+    }
+    .citation-card .citation-text a:hover {
+        text-decoration: underline;
+    }
+
+    /* Description */
+    .tool-description {
+        font-size: 1rem;
+        color: #475569;
+        margin-bottom: 1.5rem;
+        padding: 0.75rem 1rem;
+        background: #fafcff;
+        border-radius: 8px;
+        border-left: 4px solid var(--tool-color);
+    }
+
+    .no-files-message {
+        color: #94a3b8;
+        font-size: 0.85rem;
+        text-align: center;
+        padding: 0.5rem;
+    }
+
+    .upload-status-text {
+        font-size: 0.9rem;
+        color: #1e293b;
+        font-weight: 500;
+    }
+    .upload-status-detail {
+        font-size: 0.8rem;
+        color: #64748b;
+    }
+</style>
+
+<div class="tool-page">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-xl-11">
+                <!-- Main Tool Card -->
+                <div class="tool-card">
+                    <!-- Header -->
+                    <div class="tool-card-header">
+                        <div>
+                            <span class="tool-name">{{ pipeline.name }}</span>
+                            <span class="tool-version">v{{ pipeline.version }}</span>
+                            <a href="{{ pipeline.github }}" class="btn btn-sm btn-outline-light ms-2" target="_blank">
+                                <i class="fab fa-github"></i> Source Code
+                            </a>
+                        </div>
+                        <div>
+                            <span class="badge bg-light text-dark p-2" style="opacity:0.8;">
+                                <i class="fas fa-microchip"></i> {{ pipeline.slug|title }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="tool-card-body">
+                        <div class="tool-description">
+                            <i class="fas fa-info-circle" style="color: var(--tool-color);"></i>
+                            {{ pipeline.description }}
+                        </div>
+
+                        <form id="uploadForm" action="{{ url_for('submit', slug=pipeline.slug) }}" method="post" enctype="multipart/form-data">
+
+                            <div class="tool-grid">
+                                <!-- Left Column: Upload & Modules -->
+                                <div>
+                                    <!-- File Upload -->
+                                    <div class="file-upload-area" id="fileDropArea">
+                                        <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                                        <p class="mb-1 fw-semibold">Drop files here or click to browse</p>
+                                        <p class="text-muted small mb-0">.fasta, .fna, .fa, .zip supported</p>
+                                        <input type="file" name="file" id="fileInput" accept=".fasta,.fna,.fa,.fn,.faa,.zip" multiple required style="display:none;">
+                                    </div>
+
+                                    <!-- File List -->
+                                    <div id="fileListContainer" class="file-list-container" style="display:none;">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <span class="small text-muted">Selected files:</span>
+                                            <span id="fileCount" class="file-count-badge">0 files</span>
+                                        </div>
+                                        <div id="fileList"></div>
+                                    </div>
+
+                                    <!-- Upload Progress -->
+                                    <div id="uploadProgress" class="upload-progress-container">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span class="upload-status-text" id="uploadStatusText">Uploading files...</span>
+                                            <span class="upload-status-detail" id="uploadStatusDetail">0%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div id="uploadProgressBar" class="progress-bar" role="progressbar" style="width: 0%;"></div>
+                                        </div>
+                                        <div class="upload-status-detail mt-1" id="uploadFileInfo">Preparing...</div>
+                                    </div>
+
+                                    <!-- Email -->
+                                    <div class="mt-3">
+                                        <label for="email" class="form-label fw-semibold" style="font-size:0.9rem;">
+                                            <i class="far fa-envelope"></i> Email (optional)
+                                        </label>
+                                        <input type="email" class="form-control email-input" name="email" id="email"
+                                               placeholder="Email (optional) Receive results link when ready">
+                                    </div>
+
+                                    <!-- Modules -->
+                                    <div class="mt-4">
+                                        <div class="section-label"><i class="fas fa-cubes"></i> Modules to run</div>
+                                        <div class="module-grid">
+                                            {% for flag in pipeline.skip_flags %}
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="skip_modules" value="{{ flag }}" id="skip_{{ flag }}">
+                                                <label class="form-check-label" for="skip_{{ flag }}">
+                                                    Skip {{ flag|replace('_', ' ')|title }}
+                                                    <span class="module-desc">
+                                                        {{ pipeline.module_descriptions.get(flag, '') }}
+                                                    </span>
+                                                </label>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Right Column: Advanced Parameters -->
+                                <div>
+                                    <div class="section-label"><i class="fas fa-sliders-h"></i> Advanced Parameters</div>
+
+                                    {% if pipeline.params %}
+                                        {% for param_name, param_spec in pipeline.params.items() %}
+                                            <div class="param-group">
+                                                <label for="{{ param_name }}">
+                                                    <span>{{ param_name|replace('_', ' ')|title }}</span>
+                                                    {% if param_spec.default is defined %}
+                                                        <span class="param-default">default: {{ param_spec.default }}</span>
+                                                    {% endif %}
+                                                </label>
+
+                                                {% if param_spec.type == 'float' or param_spec.type == 'int' %}
+                                                    {% set min_val = param_spec.min|float if param_spec.min is defined else 0 %}
+                                                    {% set max_val = param_spec.max|float if param_spec.max is defined else 100 %}
+                                                    {% set step = 0.01 if param_spec.type == 'float' else 1 %}
+                                                    {% set default_val = param_spec.default|float %}
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <input type="range" class="form-range custom-slider flex-grow-1"
+                                                               id="{{ param_name }}" name="{{ param_name }}"
+                                                               min="{{ min_val }}" max="{{ max_val }}" step="{{ step }}" value="{{ default_val }}"
+                                                               oninput="updateSliderFill(this); document.getElementById('{{ param_name }}_value').textContent = this.value;">
+                                                        <span id="{{ param_name }}_value" class="slider-value">{{ default_val }}</span>
+                                                    </div>
+                                                    <div class="param-help">Range: {{ min_val }} – {{ max_val }}</div>
+
+                                                {% elif param_spec.type == 'bool' %}
+                                                    <div class="form-check mt-1">
+                                                        <input class="form-check-input" type="checkbox" name="{{ param_name }}" value="true" id="{{ param_name }}" {% if param_spec.default %}checked{% endif %}>
+                                                        <label class="form-check-label" for="{{ param_name }}" style="font-size:0.9rem; color:#334155;">
+                                                            Enable {{ param_name|replace('_', ' ')|title }}
+                                                        </label>
+                                                    </div>
+
+                                                {% elif param_spec.type == 'choice' %}
+                                                    <select class="form-select form-select-sm" id="{{ param_name }}" name="{{ param_name }}" style="border-radius:8px; border-color:#e2e8f0;">
+                                                        {% for choice in param_spec.choices %}
+                                                            <option value="{{ choice }}" {% if choice == param_spec.default %}selected{% endif %}>{{ choice }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                {% endif %}
+                                            </div>
+                                        {% endfor %}
+
+                                        <div class="text-muted small mt-2" style="font-size:0.8rem;">
+                                            <i class="fas fa-info-circle"></i> Adjust thresholds to fine-tune sensitivity and specificity.
+                                        </div>
+                                    {% else %}
+                                        <p class="text-muted" style="font-size:0.9rem;">No configurable parameters for this tool.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Submit -->
+                            <div class="text-center mt-4 pt-2">
+                                <button type="submit" class="btn btn-submit btn-lg" id="submitBtn" disabled>
+                                    <i class="fas fa-play"></i> Submit Job
+                                </button>
+                                <p id="noFilesWarning" class="text-muted small mt-2" style="display:block;">Please select at least one file to submit.</p>
+                            </div>
+                        </form>
+
+                        <!-- Progress -->
+                        <div id="progress" class="mt-4" style="display:none;">
+                            <div class="progress" style="height:6px; border-radius:4px; background:#f1f5f9;">
+                                <div id="progressBar" class="progress-bar" style="width:0%; background:var(--tool-color);"></div>
+                            </div>
+                            <p id="statusMessage" class="mt-2 text-center text-muted small"></p>
+                            <div id="fileList" class="text-center small text-muted"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Citation -->
+                {% if pipeline.publication != 'Manuscript in preparation' %}
+                <div class="citation-card">
+                    <p class="citation-text">
+                        <i class="fas fa-quote-right" style="color: var(--tool-color);"></i>
+                        <strong>Cite this tool:</strong> {{ pipeline.publication }}
+                    </p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ==================== FILE MANAGEMENT ====================
+    const fileInput = document.getElementById('fileInput');
+    const fileListContainer = document.getElementById('fileListContainer');
+    const fileList = document.getElementById('fileList');
+    const fileCount = document.getElementById('fileCount');
+    const submitBtn = document.getElementById('submitBtn');
+    const noFilesWarning = document.getElementById('noFilesWarning');
+    const dropArea = document.getElementById('fileDropArea');
+    const uploadProgress = document.getElementById('uploadProgress');
+    const uploadProgressBar = document.getElementById('uploadProgressBar');
+    const uploadStatusText = document.getElementById('uploadStatusText');
+    const uploadStatusDetail = document.getElementById('uploadStatusDetail');
+    const uploadFileInfo = document.getElementById('uploadFileInfo');
+
+    let selectedFiles = [];
+    let isUploading = false;
+
+    function formatFileSize(bytes) {
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+        return (bytes / 1048576).toFixed(1) + ' MB';
+    }
+
+    function formatTotalSize(files) {
+        const total = files.reduce((sum, f) => sum + f.size, 0);
+        return formatFileSize(total);
+    }
+
+    function updateFileList() {
+        fileList.innerHTML = '';
+
+        if (selectedFiles.length === 0) {
+            fileListContainer.style.display = 'none';
+            submitBtn.disabled = true;
+            noFilesWarning.style.display = 'block';
+            fileCount.textContent = '0 files';
+            return;
+        }
+
+        fileListContainer.style.display = 'block';
+        submitBtn.disabled = false;
+        noFilesWarning.style.display = 'none';
+        fileCount.textContent = selectedFiles.length + ' file' + (selectedFiles.length > 1 ? 's' : '') + ' (' + formatTotalSize(selectedFiles) + ')';
+
+        selectedFiles.forEach((file, index) => {
+            const item = document.createElement('div');
+            item.className = 'file-list-item';
+            item.innerHTML = `
+                <span class="file-name" title="${file.name}">${file.name}</span>
+                <span class="file-size">${formatFileSize(file.size)}</span>
+                <button type="button" class="file-remove" data-index="${index}" title="Remove file">×</button>
+            `;
+            fileList.appendChild(item);
+        });
+
+        document.querySelectorAll('.file-remove').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const index = parseInt(this.dataset.index);
+                selectedFiles.splice(index, 1);
+                updateFileList();
+                updateFileInput();
+            });
+        });
+    }
+
+    function updateFileInput() {
+        const dataTransfer = new DataTransfer();
+        selectedFiles.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+        fileInput.files = dataTransfer.files;
+        const event = new Event('change', { bubbles: true });
+        fileInput.dispatchEvent(event);
+    }
+
+    // Handle file selection from input
+    fileInput.addEventListener('change', function(e) {
+        if (isUploading) return;
+        const files = Array.from(this.files);
+        if (files.length > 0) {
+            selectedFiles = files;
+            updateFileList();
+        }
+    });
+
+    // Drag and drop
+    dropArea.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        this.classList.add('dragover');
+    });
+
+    dropArea.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        this.classList.remove('dragover');
+    });
+
+    dropArea.addEventListener('drop', function(e) {
+        e.preventDefault();
+        this.classList.remove('dragover');
+        if (isUploading) return;
+        const files = Array.from(e.dataTransfer.files);
+        if (files.length > 0) {
+            selectedFiles = files;
+            updateFileList();
+            updateFileInput();
+        }
+    });
+
+    dropArea.addEventListener('click', function(e) {
+        if (isUploading) return;
+        if (e.target === this || e.target.closest('.upload-icon') || e.target.closest('p')) {
+            fileInput.click();
+        }
+    });
+
+    // ==================== SLIDER FILL ====================
+    function updateSliderFill(slider) {
+        const min = parseFloat(slider.min) || 0;
+        const max = parseFloat(slider.max) || 100;
+        const val = parseFloat(slider.value);
+        const percent = ((val - min) / (max - min)) * 100;
+        slider.style.setProperty('--fill', percent + '%');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('input[type="range"].custom-slider').forEach(function(slider) {
+            updateSliderFill(slider);
+        });
+    });
+
+    // ==================== FORM SUBMISSION WITH PROGRESS ====================
+    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        if (selectedFiles.length === 0) {
+            alert('Please select at least one file.');
+            return;
+        }
+
+        if (isUploading) return;
+        isUploading = true;
+
+        // Show upload progress
+        uploadProgress.classList.add('active');
+        uploadProgressBar.style.width = '0%';
+        uploadStatusText.textContent = 'Uploading files...';
+        uploadStatusDetail.textContent = '0%';
+        uploadFileInfo.textContent = 'Preparing...';
+
+        const formData = new FormData(e.target);
+        const xhr = new XMLHttpRequest();
+
+        // Track upload progress
+        xhr.upload.addEventListener('progress', function(event) {
+            if (event.lengthComputable) {
+                const percent = Math.round((event.loaded / event.total) * 100);
+                uploadProgressBar.style.width = percent + '%';
+                uploadStatusDetail.textContent = percent + '%';
+                uploadFileInfo.textContent = `Uploaded ${formatFileSize(event.loaded)} of ${formatFileSize(event.total)}`;
+            }
+        });
+
+        // Handle response
+        xhr.onload = function() {
+            isUploading = false;
+            if (xhr.status === 202) {
+                try {
+                    const data = JSON.parse(xhr.responseText);
+                    uploadStatusText.textContent = '✅ Upload complete! Starting analysis...';
+                    uploadStatusDetail.textContent = '100%';
+                    uploadProgressBar.style.width = '100%';
+                    uploadFileInfo.textContent = 'Redirecting to progress page...';
+
+                    setTimeout(() => {
+                        window.location.href = `/progress/${data.job_id}`;
+                    }, 1000);
+                } catch (e) {
+                    uploadStatusText.textContent = '❌ Error: Invalid response from server';
+                    uploadFileInfo.textContent = '';
+                    console.error('Parse error:', e);
+                    alert('Upload failed. Please try again.');
+                    resetUploadUI();
+                }
+            } else {
+                uploadStatusText.textContent = '❌ Upload failed';
+                uploadFileInfo.textContent = 'Status code: ' + xhr.status;
+                try {
+                    const data = JSON.parse(xhr.responseText);
+                    alert('Error: ' + data.error);
+                } catch (e) {
+                    alert('Upload failed with status ' + xhr.status);
+                }
+                resetUploadUI();
+            }
+        };
+
+        xhr.onerror = function() {
+            isUploading = false;
+            uploadStatusText.textContent = '❌ Network error during upload';
+            uploadFileInfo.textContent = 'Please check your connection and try again.';
+            alert('Network error. Please check your internet connection.');
+            resetUploadUI();
+        };
+
+        xhr.open('POST', e.target.action);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.send(formData);
+
+        // Disable submit button during upload
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+    });
+
+    function resetUploadUI() {
+        isUploading = false;
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-play"></i> Submit Job';
+        setTimeout(() => {
+            uploadProgress.classList.remove('active');
+        }, 3000);
+    }
+</script>
+{% endblock %}

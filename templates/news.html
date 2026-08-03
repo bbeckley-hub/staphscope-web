@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-5">
+    <div class="card">
+        <div class="card-header">
+            <h2>📰 News & Announcements</h2>
+        </div>
+        <div class="card-body">
+
+            <!-- News Item 1 -->
+            <div class="row mb-5">
+                <div class="col-md-3">
+                    <img src="{{ url_for('static', filename='images/news/launch.jpg') }}" 
+                         class="img-fluid rounded" 
+                         alt="Platform launch"
+                         onerror="this.onerror=null; this.src='https://placehold.co/400x300?text=ESKAPE+News'">
+                </div>
+                <div class="col-md-9">
+                    <h3>🎉 ESKAPE AMR Platform Launched!</h3>
+                    <p class="text-muted">May 12, 2026</p>
+                    <p>We are proud to announce the public launch of the ESKAPE AMR Platform – a free, open‑source web suite for genomic surveillance of ESKAPE pathogens and <em>E. coli</em>. Researchers can now upload FASTA files and receive comprehensive typing, resistance, and virulence reports in minutes.</p>
+                    <a href="{{ url_for('tools_landing') }}" class="btn btn-sm btn-primary">Try the tools →</a>
+                </div>
+            </div>
+            <hr>
+
+            <!-- News Item 2 -->
+            <div class="row mb-5">
+                <div class="col-md-3">
+                    <img src="{{ url_for('static', filename='images/news/workshop.jpg') }}" 
+                         class="img-fluid rounded" 
+                         alt="Training workshop"
+                         onerror="this.onerror=null; this.src='https://placehold.co/400x300?text=Training+Workshop'">
+                </div>
+                <div class="col-md-9">
+                    <h3>🔬 First Bioinformatics Training Workshop</h3>
+                    <p class="text-muted">Coming soon – June 2026</p>
+                    <p>In collaboration with the University of Health and Allied Sciences, we will host a one‑day workshop on "Genomic Surveillance of AMR using ESKAPE Pipelines". Participants will learn how to use the web platform and interpret results. Stay tuned for registration details.</p>
+                </div>
+            </div>
+            <hr>
+
+            <!-- News Item 3 (you can add more) -->
+            <div class="row mb-5">
+                <div class="col-md-3">
+                    <img src="{{ url_for('static', filename='images/news/partners.jpg') }}" 
+                         class="img-fluid rounded" 
+                         alt="Partnership"
+                         onerror="this.onerror=null; this.src='https://placehold.co/400x300?text=New+Partnership'">
+                </div>
+                <div class="col-md-9">
+                    <h3>🤝 Seeking Hosting Partners</h3>
+                    <p class="text-muted">May 2026</p>
+                    <p>We are actively looking for institutional hosting to move the platform from a personal laptop to a dedicated server. If your organisation can provide compute resources, please <a href="mailto:brownbeckley94@gmail.com">contact us</a>.</p>
+                </div>
+            </div>
+
+            <!-- If no news yet, display a placeholder -->
+            {# <p class="text-muted">No news yet. Check back soon!</p> #}
+        </div>
+    </div>
+</div>
+{% endblock %}

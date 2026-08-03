@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-5">
+    <div class="card">
+        <div class="card-header">
+            <h2>About the ESKAPE AMR Platform</h2>
+        </div>
+        <div class="card-body">
+            <h4>Our Origin</h4>
+            <p>The ESKAPE AMR Platform was born from a simple observation: researchers in low‑resource settings face significant barriers to using genomic surveillance tools. Existing web services are fragmented, require manual collation of results, and are often not optimised for the pathogens most relevant to Africa. I built the first pipeline, StaphScope as a command‑line tool to solve this. The overwhelmingly positive feedback from colleagues and the need for an even simpler interface led to this web platform.</p>
+
+            <h4>Our Philosophy</h4>
+            <p>We believe that access to advanced bioinformatics should not be limited by geography or institutional wealth. Therefore:</p>
+            <ul>
+                <li>All pipelines are <strong>free and open‑source</strong> (MIT license).</li>
+                <li>Each pipeline is <strong>species‑optimised</strong> – no unnecessary analyses, no wasted compute.</li>
+                <li>The web interface requires <strong>no command‑line experience</strong> – upload FASTA files, get a complete report.</li>
+                <li>Data sovereignty is respected – your sequences never leave our server; you can also download the command‑line version to run offline.</li>
+            </ul>
+
+            <h4>Technical Overview</h4>
+            <p>Under the hood, the platform uses:</p>
+            <ul>
+                <li><strong>Flask</strong> (Python) for the web interface.</li>
+                <li><strong>Celery + Redis</strong> for asynchronous job processing – you can close your browser and receive an email when your analysis is ready.</li>
+                <li><strong>Separate Conda environments</strong> for each pipeline – guaranteed reproducibility and no dependency conflicts.</li>
+                <li><strong>Comprehensive databases</strong>: NCBI AMRFinderPlus, CARD, ResFinder, VFDB, PlasmidFinder, BacMet2, and many more.</li>
+                <li><strong>Cloudflare Tunnel</strong> for secure public access while the platform is hosted on a personal laptop (soon to be migrated to institutional servers or cloud servers).</li>
+            </ul>
+
+            <h4>Impact & Vision</h4>
+            <p>Currently, the platform is hosted on a personal laptop at the University of Ghana Medical School. Our immediate goal is to migrate to institutional servers or cloud servers, enabling 24/7 availability, larger file uploads, and concurrent user support. In the longer term, we aim to add pipelines for other priority pathogens (e.g., <em>Salmonella</em>, <em>Neisseria</em>), develop an API for programmatic access, and establish training workshops for public health laboratories across West Africa.</p>
+            <div class="alert alert-warning mt-4" style="border-left: 5px solid #fbbf24;">
+                <h4>🤔 Wait… ESKAPE? As in “escape”?</h4>
+                <p>Exactly. The ESKAPE pathogens are notorious for “escaping” the effects of antibiotics. But we think the name is also a <strong>global call to action</strong>:</p>
+                <ul>
+                    <li><strong>E</strong>veryone must join forces – researchers, clinicians, policymakers, and citizens.</li>
+                    <li><strong>S</strong>mart surveillance is our first line of defence. No more guessing – we need genomic data.</li>
+                    <li><strong>K</strong>nowledge must be shared openly. No paywalls, no closed silos.</li>
+                    <li><strong>A</strong>frica bears a heavy AMR burden, but African solutions are already emerging.</li>
+                    <li><strong>P</strong>revention is cheaper than cure. Let's stop resistant infections before they spread.</li>
+                    <li><strong>E</strong>very day we delay, more lives are at stake. The time to act is <strong>now</strong>, not tomorrow.</li>
+                </ul>
+                <p class="mb-0 fst-italic">“We didn’t choose the name ESKAPE because it sounds cool (though it does). We chose it because it reminds us every single day: <strong>we must ESCAPE the AMR crisis – together, urgently, and with the best science we have.</strong>”</p>
+                <p class="mt-2 small text-muted">— Brown Beckley, lead developer (who secretly hopes this pun makes you smile, not roll your eyes)</p>
+            </div>
+
+            <h4>Call to Collaboration</h4>
+            <p>We are actively seeking:</p>
+            <ul>
+                <li><strong>Institutional hosting partners</strong> to provide reliable server resources.</li>
+                <li><strong>Testers and early adopters</strong> – especially clinical microbiology labs in Ghana.</li>
+                <li><strong>Funding opportunities</strong> (grants, fellowships) to sustain and expand the platform.</li>
+                <li><strong>Academic collaborations</strong> for validation studies and tool enhancements.</li>
+            </ul>
+            <p>If you are interested, please contact <a href="mailto:brownbeckley94@gmail.com">brownbeckley94@gmail.com</a>.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

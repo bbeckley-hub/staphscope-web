@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-5">
+    <div class="card">
+        <div class="card-header">
+            <h2>📘 Tutorial & User Guide</h2>
+        </div>
+        <div class="card-body">
+
+            <!-- Resource limit and CLI alternatives -->
+            <div class="alert alert-info">
+                <strong>⚠️ Fair usage policy:</strong> The web version accepts up to <strong>10 FASTA files per job</strong> to ensure fair resource allocation. 
+                If you need to analyse <strong>100+ genomes</strong>, we recommend using the command‑line version (Conda, Docker, or Singularity) – see links below.
+            </div>
+
+            <h3>🔧 How to use the web interface</h3>
+            <ol>
+                <li><strong>Select a pathogen</strong> from the <a href="{{ url_for('tools_landing') }}">Tools</a> page.</li>
+                <li><strong>Upload your genome(s)</strong> – you can upload multiple FASTA files (.fasta, .fna, .fa) or a ZIP archive containing them.</li>
+                <li><strong>Optional: Enter your email</strong> – we will send you a direct link to your results when the job finishes.</li>
+                <li><strong>Choose which modules to run</strong> – uncheck any you want to skip (e.g., visualisation, lineage).</li>
+                <li><strong>Submit</strong> – you will be redirected to a progress page with live logs. You can close the browser and return later via the email link.</li>
+                <li><strong>Access results</strong> – when the job completes, you will be automatically redirected to the results page, or you can click the link in the email.</li>
+            </ol>
+            <h3>🎥 Watch a video walkthrough</h3>
+            <div class="ratio ratio-16x9 mb-3">
+                <video controls poster="https://via.placeholder.com/1280x720?text=StaphScope+Tutorial" style="width:100%; background:#000;">
+                    <source src="{{ url_for('static', filename='tutorial_videos/tutorial.webm') }}" type="video/webm">
+            </div>
+            <p class="text-muted">The video demonstrates how to upload genomes, select modules, and retrieve results. (WebM format, ~280 MB)</p>
+                        <h3>📊 Sample Outputs & Interactive Reports</h3>
+            <p>To help you understand the depth of information returned by each pipeline, we provide live, interactive sample reports. These reports showcase the gene-centric analysis, comprehensive statistics, and detailed results you can expect for your own data. Click on a tool's name to explore its sample output.</p>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Tool</th>
+                            <th>Sample Output Description</th>
+                            <th>Sample Report Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>StaphScope</strong> (<em>S. aureus</em>)</td>
+                            <td>Gene-centric analysis of 300 genomes, including MLST, spa types, SCCmec, AMR, and virulence genes, with a population snapshot.</td>
+                            <td><a href="https://htmlpreview.github.io/?https://bbeckley-hub.github.io/staphscope-typing-tool/#summary" target="_blank" class="btn btn-sm btn-outline-primary">View Sample Report</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>AcinetoScope</strong> (<em>A. baumannii</em>)</td>
+                            <td>Comprehensive typing with dual MLST, capsule (K/O) analysis, and detailed AMR/virulence gene tracking for outbreak investigation.</td>
+                            <td><a href="https://bbeckley-hub.github.io/acinetoscope/#summary" target="_blank" class="btn btn-sm btn-outline-primary">View Sample Report</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>EcoliTyper</strong> (<em>E. coli</em>)</td>
+                            <td>Ultimate report with MLST, serotyping, phylogrouping, CH typing, AMR, virulence, and plasmid profiles across 200 genomes.</td>
+                            <td><a href="https://htmlpreview.github.io/?https://bbeckley-hub.github.io/EcoliTyper/#summary" target="_blank" class="btn btn-sm btn-outline-primary">View Sample Report</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kleboscope</strong> (<em>K. pneumoniae</em>)</td>
+                            <td>Gene-centric analysis covering MLST, capsule typing, virulence markers (ICEKp, iuc, rmp), and comprehensive AMR/plasmid detection.</td>
+                            <td><a href="https://bbeckley-hub.github.io/Kleboscope/#summary" target="_blank" class="btn btn-sm btn-outline-primary">View Sample Report</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>PseudoScope</strong> (<em>P. aeruginosa</em>)</td>
+                            <td>Interactive report with MLST, PAST serotyping, AMR, virulence (exoU/exoS), and integrated dashboards for 40 genomes.</td>
+                            <td><a href="https://htmlpreview.github.io/?https://bbeckley-hub.github.io/pseudoscope/#summary" target="_blank" class="btn btn-sm btn-outline-primary">View Sample Report</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>EnteroMark</strong> (<em>E. faecium</em>)</td>
+                            <td>Ultimate report combining MLST, AMR (vancomycin, linezolid), virulence, and plasmid detection with QC metrics.</td>
+                            <td><a href="https://htmlpreview.github.io/?https://bbeckley-hub.github.io/EnteroMark/" target="_blank" class="btn btn-sm btn-outline-primary">View Sample Report</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>EnteroScope</strong> (<em>Enterobacter</em> spp.)</td>
+                            <td>Gene-centric report for Enterobacter cloacae complex, including MLST, AMR (carbapenemases), virulence, and plasmid replicons.</td>
+                            <td><a href="https://bbeckley-hub.github.io/enteroscope/#summary" target="_blank" class="btn btn-sm btn-outline-primary">View Sample Report</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-muted">These sample reports are hosted on GitHub Pages and demonstrate the full capabilities of each pipeline. They are best viewed on a desktop/laptop for the complete interactive experience.</p>
+
+            <h3>🐍 Running the command‑line version (for >10 genomes)</h3>
+            <p>All pipelines are available as Conda packages, Docker images, and Singularity containers. See each tool’s GitHub repository for detailed instructions:</p>
+            <ul>
+                <li><a href="https://github.com/bbeckley-hub/staphscope-typing-tool" target="_blank">StaphScope</a> – Conda, Docker, Singularity</li>
+                <li><a href="https://github.com/bbeckley-hub/acinetoscope" target="_blank">AcinetoScope</a> – Conda, Docker, Singularity</li>
+                <li><a href="https://github.com/bbeckley-hub/EcoliTyper" target="_blank">EcoliTyper</a> – Conda</li>
+                <li><a href="https://github.com/bbeckley-hub/Kleboscope" target="_blank">Kleboscope</a> – Conda</li>
+                <li><a href="https://github.com/bbeckley-hub/pseudoscope" target="_blank">PseudoScope</a> – Conda</li>
+                <li><a href="https://github.com/bbeckley-hub/EnteroMark" target="_blank">EnteroMark</a> – Conda</li>
+                <li><a href="https://github.com/bbeckley-hub/enteroscope" target="_blank">EnteroScope</a> – Conda</li>
+            </ul>
+            <p>For large‑scale analyses (100+ genomes), the command‑line version is faster and does not have the 10‑file limit.</p>
+
+            <h3>📚 Additional resources</h3>
+            <ul>
+                <li><a href="{{ url_for('about') }}">About the ESKAPE AMR Platform</a></li>
+                <li><a href="{{ url_for('publications') }}">Publications & citations</a></li>
+                <li><a href="{{ url_for('team') }}">Team</a></li>
+                <li><a href="{{ url_for('funding') }}">Funding & support</a></li>
+            </ul>
+
+            <div class="alert alert-warning mt-4">
+                <strong>❓ Questions or issues?</strong> Contact <a href="mailto:brownbeckley94@gmail.com">brownbeckley94@gmail.com</a> or open an issue on <a href="https://github.com/bbeckley-hub" target="_blank">GitHub</a>.
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-5">
+    <div class="card">
+        <div class="card-header">
+            <h2>Team</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- Brown Beckley -->
+                <div class="col-md-4 text-center">
+                    <img src="{{ url_for('static', filename='images/team/BrownBeckley.jpg') }}" alt="Brown Beckley" class="img-fluid rounded-circle mb-2" style="width: 150px; height: 150px; object-fit: cover;">
+                    <h4>Brown Beckley</h4>
+                    <p>Lead Developer & Bioinformatician</p>
+                    <p>Department of Medical Biochemistry<br>University of Ghana Medical School</p>
+                    <p>
+                        <a href="https://github.com/bbeckley-hub" target="_blank" class="me-2"><i class="fab fa-github"></i> GitHub</a> |
+                        <a href="mailto:brownbeckley94@gmail.com" class="mx-2"><i class="fas fa-envelope"></i> Email</a><br>
+                        <a href="https://scholar.google.com/citations?user=CYNOsqIAAAAJ&hl=en" target="_blank" class="me-2"><i class="fas fa-graduation-cap"></i> Scholar</a> |
+                        <a href="https://orcid.org/0009-0005-5414-1305" target="_blank" class="mx-2"><i class="fab fa-orcid"></i> ORCID</a><br>
+                        <a href="https://www.linkedin.com/in/brown-beckley-190315319/" target="_blank" class="mt-2 d-inline-block"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                    </p>
+                </div>
+
+                <!-- Dr. Vincent Amarh -->
+                <div class="col-md-4 text-center">
+                    <img src="{{ url_for('static', filename='images/team/placeholder.jpg') }}" alt="Dr. Vincent Amarh" class="img-fluid rounded-circle mb-2" style="width: 150px; height: 150px; object-fit: cover;">
+                    <h4>Dr. Vincent Amarh</h4>
+                    <p>Principal Investigator</p>
+                    <p>Department of Medical Biochemistry<br>University of Ghana Medical School</p>
+                    <p>
+                        <a href="mailto:vamarh@ug.edu.gh" target="_blank" class="me-2"><i class="fas fa-envelope"></i> Email</a> |
+                        <a href="https://scholar.google.com/citations?user=sUZBQjAAAAAJ&hl=en" target="_blank" class="mx-2"><i class="fas fa-graduation-cap"></i> Scholar</a><br>
+                        <a href="https://orcid.org/0000-0002-6681-8118" target="_blank" class="me-2"><i class="fab fa-orcid"></i> ORCID</a> |
+                        <a href="https://www.linkedin.com/in/vincent-amarh-47b78428/" target="_blank" class="mx-2"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                    </p>
+                </div>
+
+                <!-- You can add more team members here -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

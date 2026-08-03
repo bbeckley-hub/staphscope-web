@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>StaphScope Web – MRSA Genotyping Platform</title>
+    <title>ESKAPE AMR Platform – Genomic Surveillance</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -12,6 +12,52 @@
             min-height: 100vh;
             color: #ffffff;
         }
+        /* Announcement banner styles (red, scrolling) */
+        .announcement-banner {
+            background-color: #dc2626;
+            color: white;
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 8px 0;
+            font-size: 0.95rem;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1000;
+        }
+        .scrolling-text {
+            display: inline-block;
+            padding-left: 100%;
+            animation: scroll-left 25s linear infinite;
+        }
+        @keyframes scroll-left {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-100%); }
+        }
+        @media (max-width: 768px) {
+            .scrolling-text { animation-duration: 35s; }
+        }
+
+        /* Rotating quotes banner */
+        .quote-banner {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 0;
+            font-size: 0.9rem;
+            text-align: center;
+            color: #fbbf24;
+        }
+        .quote-icon {
+            margin-right: 12px;
+            font-size: 1.2rem;
+        }
+        .quote-text {
+            font-style: italic;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+        }
+
         .navbar {
             background: rgba(0, 0, 0, 0.3) !important;
             backdrop-filter: blur(10px);
@@ -20,7 +66,7 @@
         .navbar-brand, .nav-link {
             color: #ffffff !important;
         }
-        .nav-link:hover {
+        .nav-link:hover, .nav-link.active {
             color: #fbbf24 !important;
         }
         .card {
@@ -67,18 +113,44 @@
     </style>
 </head>
 <body>
+    <!-- Announcement banner (red, scrolling) -->
+    <div class="announcement-banner">
+        <div class="scrolling-text">
+            🚀 <strong>Announcement:</strong> The ESKAPE AMR Platform is now live! We are seeking institutional hosting partners. Contact brownbeckley94@gmail.com for collaborations. | 
+            ⚠️ Limited server resources – please be patient with large files. | 
+            📢 New pipelines added: EnteroMark (E. faecium) and EnteroScope (Enterobacter cloacae). Check them out!
+        </div>
+    </div>
+
+    <!-- Rotating Scientific Quotes & Fun Facts (100+ items) -->
+    <div class="quote-banner">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-center">
+                <span class="quote-icon">💡</span>
+                <span id="rotatingQuote" class="quote-text">Loading fascinating science...</span>
+            </div>
+        </div>
+    </div>
+
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="/">🔬 StaphScope</a>
+            <a class="navbar-brand" href="{{ url_for('landing') }}">🦠 ESKAPE AMR Hub</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#publications">Publications</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link {% if request.endpoint == 'landing' %}active{% endif %}" href="{{ url_for('landing') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link {% if request.endpoint == 'tools_landing' %}active{% endif %}" href="{{ url_for('tools_landing') }}">Tools</a></li>
+                    <li class="nav-item"><a class="nav-link {% if request.endpoint == 'tutorial' %}active{% endif %}" href="{{ url_for('tutorial') }}">Tutorial</a></li>
+                    <li class="nav-item"><a class="nav-link {% if request.endpoint == 'publications' %}active{% endif %}" href="{{ url_for('publications') }}">Publications</a></li>
+                    <li class="nav-item"><a class="nav-link {% if request.endpoint == 'news' %}active{% endif %}" href="{{ url_for('news') }}">News</a></li>
+                    <li class="nav-item"><a class="nav-link {% if request.endpoint == 'team' %}active{% endif %}" href="{{ url_for('team') }}">Team</a></li>
+                    <li class="nav-item"><a class="nav-link {% if request.endpoint == 'funding' %}active{% endif %}" href="{{ url_for('funding') }}">Funding</a></li>
+                    <li class="nav-item"><a class="nav-link {% if request.endpoint == 'about' %}active{% endif %}" href="{{ url_for('about') }}">About</a></li>
+                    <li class="nav-item"><a class="nav-link {% if request.endpoint == 'data_policy' %}active{% endif %}" href="{{ url_for('data_policy') }}">Privacy</a></li>
+                    <li class="nav-item"><a class="nav-link {% if request.endpoint == 'roadmap' %}active{% endif %}" href="{{ url_for('roadmap') }}">Roadmap</a></li>
+                    <li class="nav-item"><a class="nav-link {% if request.endpoint == 'community' %}active{% endif %}" href="{{ url_for('community') }}">Community</a></li>
                 </ul>
             </div>
         </div>
@@ -87,16 +159,294 @@
     <main>
         {% block content %}{% endblock %}
     </main>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <footer class="footer py-3 mt-5">
         <div class="container text-center">
-            <p>© 2026 StaphScope Team – University of Ghana Medical School</p>
-            <p>Cite: Beckley, B., Amarh, V. (2026) <em>BMC Genomics</em> | DOI: <a href="https://doi.org/10.1186/s12864-026-12609-x" target="_blank">10.1186/s12864-026-12609-x</a></p>
-            <p>Contact: <a href="mailto:brownbeckley94@gmail.com">brownbeckley94@gmail.com</a> | GitHub: <a href="https://github.com/bbeckley-hub/staphscope-typing-tool" target="_blank">bbeckley-hub/staphscope-typing-tool</a></p>
+            <!-- Rotating scientific quote (different from the header) -->
+            <div id="footerQuote" class="small fst-italic mb-2" style="color: #fbbf24;">Loading wisdom...</div>
+
+            <p>© 2026 ESKAPE AMR Platform – University of Ghana Medical School. All rights reserved.</p>
+            <p class="social-links">
+                <a href="https://github.com/bbeckley-hub" target="_blank" class="text-white text-decoration-none mx-2" title="GitHub">
+                    <i class="fab fa-github fa-lg"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/brown-beckley-190315319/" target="_blank" class="text-white text-decoration-none mx-2" title="LinkedIn">
+                    <i class="fab fa-linkedin fa-lg"></i>
+                </a>
+                <a href="mailto:brownbeckley94@gmail.com" class="text-white text-decoration-none mx-2" title="Email">
+                    <i class="fas fa-envelope fa-lg"></i>
+                </a>
+                <!-- Add Twitter/X account -->
+                <!-- <a href="https://twitter.com/yourhandle" target="_blank" class="text-white text-decoration-none mx-2" title="X (Twitter)">
+                    <i class="fab fa-x-twitter fa-lg"></i>
+                </a> -->
+                <!-- Add ORCID if you have one -->
+                <a href="https://orcid.org/0009-0005-5414-1305" target="_blank" class="text-white text-decoration-none mx-2" title="ORCID">
+                    <i class="fab fa-orcid fa-lg"></i>
+                <a href="{{ url_for('community') }}" class="text-white text-decoration-none mx-2">🤝 Community</a>
+                    <i class="fab fa-community fa-lg"></i>
+                <a href="{{ url_for('roadmap') }}" class="text-white text-decoration-none mx-2">🗺️ Roadmap</a>
+                    <i class="fab fa-roadmap fa-lg"></i>
+                </a>
+                
+            </p>
         </div>
     </footer>
+    <script>
+        // Footer rotating quotes 
+        const footerQuotes = [
+            "The important thing is not to stop questioning. – Albert Einstein",
+            "The science of today is the technology of tomorrow. – Edward Teller",
+            "Nothing in life is to be feared, it is only to be understood. – Marie Curie",
+            "The microbe is nothing; the terrain is everything. – Louis Pasteur",
+            "In the middle of difficulty lies opportunity. – Albert Einstein",
+            "Science is organised knowledge. – Herbert Spencer",
+            "Evolution in a petri dish. – Richard Lenski",
+            "Every microbe has its own story. – Anonymous",
+            "Resistance is not futile. – Antibiotic Researcher",
+            "Genomics is a lens on biology. – Eric Lander",
+            "The most beautiful thing we can experience is the mysterious. – Albert Einstein",
+            "Science knows no country, because knowledge belongs to humanity. – Louis Pasteur",
+            "Imagination is more important than knowledge. – Albert Einstein",
+            "The important thing in science is not so much to obtain new facts as to discover new ways of thinking about them. – William Lawrence Bragg",
+            "The cure for boredom is curiosity. There is no cure for curiosity. – Dorothy Parker",
+            "In science, there are no shortcuts to truth. – Karl Popper",
+            "Nothing in biology makes sense except in the light of evolution. – Theodosius Dobzhansky",
+            "The greatest enemy of knowledge is not ignorance, it is the illusion of knowledge. – Stephen Hawking",
+            "One, remember to look up at the stars and not down at your feet. – Stephen Hawking",
+            "The whole of science is nothing more than a refinement of everyday thinking. – Albert Einstein",
+            "The universe is under no obligation to make sense to you. – Neil deGrasse Tyson",
+            "Science is a way of thinking much more than it is a body of knowledge. – Carl Sagan",
+            "Somewhere, something incredible is waiting to be known. – Carl Sagan",
+            "The secret of getting ahead is getting started. – Mark Twain",
+            "The future belongs to those who believe in the beauty of their dreams. – Eleanor Roosevelt",
+            "The only source of knowledge is experience. – Albert Einstein",
+            "We are what we repeatedly do. Excellence, then, is not an act, but a habit. – Aristotle",
+            "It does not matter how slowly you go as long as you do not stop. – Confucius",
+            "The good thing about science is that it's true whether or not you believe in it. – Neil deGrasse Tyson",
+            "The most exciting phrase to hear in science, the one that heralds new discoveries, is not 'Eureka!' but 'That's funny...' – Isaac Asimov"
+        ];
+        let quoteIndex = 0;
+        const footerQuoteElem = document.getElementById('footerQuote');
+        if (footerQuoteElem) {
+            footerQuoteElem.textContent = footerQuotes[Math.floor(Math.random() * footerQuotes.length)];
+            setInterval(() => {
+                let newIndex;
+                do {
+                    newIndex = Math.floor(Math.random() * footerQuotes.length);
+                } while (newIndex === quoteIndex && footerQuotes.length > 1);
+                quoteIndex = newIndex;
+                footerQuoteElem.textContent = footerQuotes[quoteIndex];
+            }, 10000);
+        }
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    {% block scripts %}{% endblock %}
+    <script>
+        // 150+ scientific quotes, fun facts, and AMR insights
+        const quotesAndFacts = [
+            "🧫 The human body contains trillions of microbes – outnumbering human cells 10 to 1.",
+            "🔬 The first antibiotic, penicillin, was discovered by accident in 1928 by Alexander Fleming.",
+            "🧬 The ESKAPE pathogens are responsible for the majority of hospital-acquired infections worldwide.",
+            "💊 Methicillin-resistant Staphylococcus aureus (MRSA) was first reported in the UK in 1961.",
+            "🌍 The WHO has declared antimicrobial resistance one of the top 10 global public health threats.",
+            "🧪 One teaspoon of soil contains about 1 billion bacteria.",
+            "🦠 Acinetobacter baumannii can survive on dry surfaces for months, making it a hardy hospital pathogen.",
+            "🧬 Horizontal gene transfer allows bacteria to share resistance genes even across species.",
+            "🧫 The term 'ESKAPE' was coined in 2008 to highlight pathogens that 'escape' antibiotic treatment.",
+            "💊 Colistin is a last-resort antibiotic; resistance genes (mcr) can spread on mobile plasmids.",
+            "🔬 The CRISPR-Cas system was originally discovered as a bacterial immune defence mechanism.",
+            "🧪 Biofilms (communities of bacteria) are up to 1,000 times more resistant to antibiotics than free-living cells.",
+            "🦠 Pseudomonas aeruginosa is known to contaminate hospital sinks and ventilators.",
+            "🧬 The human microbiome contains over 100 trillion microbes – an entire ecosystem inside us.",
+            "💊 The first fully synthetic antibiotic, chloramphenicol, was introduced in 1949.",
+            "🔬 Louis Pasteur famously said: 'The microbe is nothing, the terrain is everything.'",
+            "🧫 Bacteria can exchange DNA through tiny 'bridges' called pili.",
+            "🧪 Some bacteria produce antibiotics to kill competing species – we use those antibiotics as drugs.",
+            "🦠 Enterococcus faecium is naturally resistant to many antibiotics and can acquire vancomycin resistance.",
+            "🧬 The average person carries about 1-2 kg of microbes in their gut.",
+            "💊 The pipeline for new antibiotics has dried up; few new classes have been discovered since the 1980s.",
+            "🔬 Alexander Fleming warned about antibiotic resistance in his Nobel Prize speech (1945).",
+            "🧫 The 'One Health' approach links human, animal, and environmental health in fighting AMR.",
+            "🧪 Antimicrobial peptides are part of our innate immune system – they punch holes in bacterial membranes.",
+            "🦠 Klebsiella pneumoniae produces a thick capsule that helps it evade phagocytosis.",
+            "🧬 The first genome of a free-living organism (Haemophilus influenzae) was sequenced in 1995.",
+            "💊 Some bacteria can inactivate antibiotics by producing enzymes like β-lactamases (e.g., NDM, KPC).",
+            "🔬 The discovery of the structure of DNA by Watson and Crick (1953) revolutionised biology.",
+            "🧫 The human mouth hosts over 700 species of bacteria.",
+            "🧪 Bacteria can 'talk' to each other via quorum sensing, coordinating group behaviours like biofilm formation.",
+            "🦠 Acinetobacter baumannii is often called 'Iraqibacter' because of its association with wounded soldiers.",
+            "🧬 The development of next-generation sequencing has made bacterial genome analysis routine.",
+            "💊 The first case of plasmid-mediated colistin resistance (mcr-1) was reported in China in 2015.",
+            "🔬 The microscope allowed us to discover the invisible world of microbes – a true revolution.",
+            "🧫 Biofilms form on medical devices like catheters and implants, causing persistent infections.",
+            "🧪 The term 'antibiotic' means 'against life' – they kill or inhibit bacteria.",
+            "🦠 Some Enterobacter species are intrinsically resistant to ampicillin and cephalosporins.",
+            "🧬 The study of metagenomics allows us to analyse DNA directly from environmental samples without culturing.",
+            "💊 The European Centre for Disease Prevention and Control (ECDC) estimates over 33,000 deaths per year from AMR in Europe alone.",
+            "🔬 Paul Ehrlich coined the term 'magic bullet' and developed the first synthetic antimicrobial (Salvarsan).",
+            "🧫 The average sneeze can travel up to 8 metres and contains millions of microbes.",
+            "🧪 Psyllium husk (fiber) can promote beneficial gut bacteria, but it's not an antibiotic.",
+            "🦠 Vancomycin was originally derived from a bacterium found in a soil sample from Borneo.",
+            "🧬 The 'resistome' is the collection of all antibiotic resistance genes in a given environment.",
+            "💊 Some bacteria can survive in extreme environments – they are called extremophiles.",
+            "🔬 Robert Koch established the link between specific microbes and diseases (Koch's postulates).",
+            "🧫 The largest bacterium (Thiomargarita magnifica) can be seen with the naked eye – up to 2 cm long!",
+            "🧪 Bacteriophages are viruses that infect bacteria; they are being explored as an alternative to antibiotics.",
+            "🦠 Elizabethkingia anophelis is a rare but highly resistant pathogen recently identified.",
+            "🧬 The typical bacterial genome is around 2-6 million base pairs, but some are much larger.",
+            "💊 The WHO GLASS (Global Antimicrobial Resistance Surveillance System) tracks resistance trends worldwide.",
+            "🔬 The development of bioinformatics tools like StaphScope makes genomic surveillance accessible to all.",
+            "🧫 The ESKAPE AMR Platform is your free, open-source gateway to rapid pathogen typing.",
+            "✨ 'In the middle of difficulty lies opportunity' – Albert Einstein (for tackling AMR).",
+            "🧫 The human gut contains over 1,000 different species of bacteria.",
+            "🔬 The first electron microscope was built in 1931, allowing us to see viruses for the first time.",
+            "💊 Some bacteria can 'hide' inside host cells to avoid antibiotics.",
+            "🧪 The discovery of restriction enzymes led to the birth of genetic engineering.",
+            "🦠 Carbapenem-resistant Enterobacteriaceae (CRE) are called 'nightmare bacteria' by the CDC.",
+            "🧬 Staphylococcus aureus can acquire the mecA gene, turning MRSA into a superbug.",
+            "💊 The dry pipeline for new antibiotics is a major driver of the AMR crisis.",
+            "🔬 The 'Swiss cheese model' of infection control uses multiple layers to prevent outbreaks.",
+            "🧫 Hand hygiene is the single most effective way to prevent healthcare-associated infections.",
+            "🧪 The minimum inhibitory concentration (MIC) is the lowest antibiotic concentration that stops bacterial growth.",
+            "🦠 Some Pseudomonas aeruginosa strains are resistant to nearly all available antibiotics.",
+            "🧬 The F plasmid allowed bacteria to transfer DNA by conjugation – a key mechanism of resistance spread.",
+            "💊 Overuse of antibiotics in agriculture contributes to AMR in humans.",
+            "🔬 The development of MALDI-TOF mass spectrometry revolutionised bacterial identification.",
+            "🧫 Phage therapy uses viruses to kill bacteria and is being revived as a treatment for resistant infections.",
+            "🧪 The outer membrane of Gram-negative bacteria acts as a strong barrier to many antibiotics.",
+            "🦠 Acinetobacter baumannii can acquire multiple carbapenemase genes (OXA, NDM, KPC).",
+            "🧬 The first bacterial genome (Haemophilus influenzae) was sequenced in 1995 by Craig Venter’s team.",
+            "💊 The 'antibiotic paradox' – the more we use them, the less effective they become.",
+            "🔬 The Petri dish was invented by Julius Richard Petri in 1887 and is still used today.",
+            "🧫 The human skin alone hosts about 1,000 different bacterial species.",
+            "🧪 The use of whole-genome sequencing in outbreaks has become a standard for public health.",
+            "🦠 Vancomycin-resistant Enterococci (VRE) are a major threat in hospitals worldwide.",
+            "🧬 The CRISPR-Cas9 system is now used for gene editing, but it originally evolved in bacteria.",
+            "💊 Some antibiotics work by inhibiting cell wall synthesis (penicillins, vancomycin).",
+            "🔬 The dark field microscope allows observation of living, unstained bacteria.",
+            "🧫 Biofilms can form on teeth (dental plaque), causing cavities and gum disease.",
+            "🧪 The 'antibiotic resistance gene pool' includes both disease-causing and harmless bacteria.",
+            "🦠 Elizabethkingia meningoseptica is a rare but dangerous pathogen often associated with hospital outbreaks.",
+            "🧬 Horizontal gene transfer via plasmids, transposons, and integrons spreads resistance rapidly.",
+            "💊 New antibiotics like teixobactin are discovered by culturing soil bacteria using novel methods.",
+            "🔬 The Gram stain, developed in 1884, is still the first step in identifying bacteria.",
+            "🧫 The human body carries about 1 trillion microbes per square centimetre of colon.",
+            "🧪 The One Health approach recognises that AMR links human, animal, and environmental health.",
+            "🦠 Proteus mirabilis is known for its 'swarming motility' on agar plates.",
+            "🧬 The average length of a bacterial chromosome is about 1 mm when stretched out.",
+            "💊 The use of rapid diagnostic tests can reduce unnecessary antibiotic prescribing.",
+            "🔬 The scanning electron microscope (SEM) provides detailed 3D images of bacterial surfaces.",
+            "🧫 A single drop of seawater contains millions of viruses, most of which infect bacteria.",
+            "🧪 The 'post-antibiotic era' refers to a future where common infections may become untreatable.",
+            "🦠 Some bacteria produce spores that are extremely resistant to heat, chemicals, and radiation.",
+            "🧬 The discovery of the polymerase chain reaction (PCR) revolutionised molecular biology.",
+            "💊 Antibiotic stewardship programs aim to preserve the effectiveness of current antibiotics.",
+            "🔬 The 'inverted microscope' is used to observe cells in culture flasks.",
+            "🧫 The human lung was once thought sterile, but it actually contains a diverse microbiome.",
+            "🧪 Some bacteria can use arsenic instead of phosphorus in their DNA – a rare adaptation.",
+            "🦠 Carbapenem-resistant Acinetobacter baumannii (CRAB) is a critical priority pathogen for the WHO.",
+            "🧬 The first synthetic bacterial genome (Mycoplasma mycoides) was created in 2010.",
+            "💊 The global burden of AMR is estimated to cause 10 million deaths per year by 2050 if unchecked.",
+            "🔬 The 'gold standard' for bacterial identification is 16S rRNA gene sequencing.",
+            "🧫 The human mouth contains over 700 different bacterial species, many still uncultured.",
+            "✨ Science knows no country, because knowledge belongs to humanity – Louis Pasteur.",
+            "🌍 Africa is home to the oldest known microbial fossils (stromatolites) dating back 3.5 billion years, found in South Africa and Zimbabwe.",
+            "🦁 The gut microbiome of African hunter‑gatherers (Hadza) shows greater diversity than industrialised populations, offering clues about modern microbiome loss.",
+            "🧬 The first near‑complete human genome from an African population was published in 2020, filling a major gap in genomics.",
+            "🧫 The Ethiopian Highlands harbour unique extremophile bacteria adapted to high UV and low oxygen, studied for astrobiology.",
+            "🌿 The ‘African superfood’ moringa contains antimicrobial compounds; its leaves are used traditionally to treat infections.",
+            "🌀 Lake Malawi contains over 1,000 species of cichlid fish – a living laboratory for understanding speciation and microbial co‑evolution.",
+            "🧪 The dung of African elephants hosts unique microbial communities that help break down cellulose, inspiring biofuel research.",
+            "🏜️ The Namib Desert’s ‘fairy circles’ are associated with specific soil bacteria that influence plant distribution.",
+            "🧬 The Lassa virus (discovered in Nigeria) and Ebola (first identified near the Ebola River in DRC) are studied using genomic surveillance tools like StaphScope.",
+            "🌡️ The 'Fever from the Nile' (Rift Valley fever virus) was first isolated in Kenya in 1931 – a reminder of Africa's central role in emerging infectious disease research.",
+            "🧫 Staphylococcus aureus can survive on dry surfaces for weeks to months, contributing to hospital outbreaks.",
+            "💊 MRSA (methicillin‑resistant S. aureus) was first reported in the UK in 1961, just two years after methicillin was introduced.",
+            "🧬 S. aureus carries a mobile genetic element called SCCmec that confers methicillin resistance.",
+            "🔬 The spa typing method looks at repeats in the protein A gene – it's faster than MLST for outbreak analysis.",
+            "🧪 Around 30% of people carry S. aureus in their nose without any symptoms (nasal colonisation).",
+            "🦠 Some S. aureus strains produce Panton‑Valentine leukocidin (PVL), a toxin linked to severe skin and lung infections.",
+            "🧫 S. aureus is a leading cause of infective endocarditis, especially in people with prosthetic heart valves.",
+            "💊 The US CDC lists MRSA as a 'serious threat' with over 80,000 invasive infections per year in the USA alone.",
+            "🔬 S. aureus can form biofilms on medical devices like catheters and joint replacements, making infections hard to treat.",
+            "🧬 The accessory gene regulator (agr) quorum‑sensing system controls S. aureus virulence factor production.",
+            "🦠 Acinetobacter baumannii is often called 'Iraqibacter' because of its association with wounded soldiers in the Middle East.",
+            "🧬 A. baumannii can survive on dry surfaces for months, making it a notorious cause of hospital outbreaks.",
+            "💊 A. baumannii has acquired carbapenemases like OXA‑23, OXA‑24, and NDM, leaving few treatment options.",
+            "🔬 The Pasteur and Oxford MLST schemes are both used for A. baumannii – they give different sequence types.",
+            "🧪 Capsule (K) and lipooligosaccharide (O) typing are performed with the tool Kaptive, which is integrated into AcinetoScope.",
+            "🧫 A. baumannii is a leading cause of ventilator‑associated pneumonia (VAP) in intensive care units worldwide.",
+            "🌍 The WHO classifies carbapenem‑resistant A. baumannii (CRAB) as a 'critical' priority pathogen.",
+            "🔬 Some A. baumannii strains can acquire resistance to colistin, a last‑line antibiotic, through mutations in the pmrAB two‑component system.",
+            "🦠 A. baumannii can use its type IV pili to adhere to surfaces and form biofilms on catheters and endotracheal tubes.",
+            "🧬 The genome of A. baumannii is highly plastic, allowing rapid uptake of resistance genes via plasmids and transposons.",
+            "🧬 E. coli is the most studied bacterium – it has been a model organism for over a century.",
+            "🧪 Most E. coli strains are harmless, but pathogenic strains cause urinary tract infections, diarrhoea, and sepsis.",
+            "🦠 The O157:H7 serotype causes severe bloody diarrhoea and kidney failure (haemolytic uraemic syndrome).",
+            "🔬 CH typing (based on fumC and fimH) is a high‑resolution typing method for extraintestinal E. coli.",
+            "🧫 The Clermont phylogrouping scheme divides E. coli into eight groups (A, B1, B2, C, D, E, F, and G).",
+            "💊 Extended‑spectrum beta‑lactamase (ESBL)‑producing E. coli is common in community‑acquired infections.",
+            "🌍 The pandemic clone ST131 is a major cause of fluoroquinolone‑resistant and ESBL‑producing infections worldwide.",
+            "🧬 E. coli has a highly diverse accessory genome, including plasmids that carry multiple resistance genes.",
+            "🧪 Serotyping (O and H antigens) remains the gold standard for classifying E. coli pathotypes.",
+            "💊 Colistin resistance (mcr genes) has been found in E. coli from livestock and humans, threatening last‑line therapy.",
+            "🦠 Klebsiella pneumoniaeis a major cause of hospital‑acquired pneumonia, urinary tract infections, and bloodstream infections.",
+            "🧬 Klebsiella pneumoniae produces a thick polysaccharide capsule that helps it evade the immune system – there are over 70 K types.",
+            "💊 Carbapenem‑resistant K. pneumoniae (CRKP) is a 'nightmare bacterium' because it resists most antibiotics.",
+            "🔬 The Kaptive tool is used for Klebsiella capsule typing; certain K types (e.g., K1, K2) are hypervirulent.",
+            "🧪 Hypervirulent K. pneumoniae (hvKP) can cause severe community‑acquired infections in healthy people.",
+            "🌍 The ST11 and ST258 clones of Klebsiella pneumoniaehave spread globally, carrying various carbapenemase genes (KPC, NDM, OXA‑48).",
+            "🧫 K. pneumoniae can carry virulence plasmids encoding aerobactin (iuc), salmochelin (iro), and colibactin (clb).",
+            "💊 The mcr genes confer colistin resistance and have been reported in K. pneumoniae from Africa and Asia.",
+            "🔬 The ICEKp integrative element carries yersiniabactin and colibactin genes, enhancing virulence.",
+            "🧬 K. pneumoniae is naturally resistant to ampicillin due to a chromosomal beta‑lactamase (SHV‑1).",
+            "🦠 Pseudomonas aeruginosa is a leading cause of infections in people with cystic fibrosis, burns, and immunocompromised patients.",
+            "💊 Pseudomonas aeruginosa is intrinsically resistant to many antibiotics due to its low outer membrane permeability and efflux pumps.",
+            "🧬 The PAST serotyping (O‑antigen) identifies 20 different O serotypes, with O1/O2/O3/O4/O5/O6/O7/O8/O9/O10/O11/O12/O13/O14/O15/O16/O17/O18/O19/O20.",
+            "🔬 The exoU toxin is a marker of highly virulent strains and is associated with worse clinical outcomes.",
+            "🧫P. aeruginosa forms biofilms in the lungs of cystic fibrosis patients, making it extremely difficult to eradicate.",
+            "🌍 The ST235 clone has spread globally and often carries carbapenemase genes such as VIM and KPC.",
+            "🧬 The genome of P. aeruginosa is about 6.3 million base pairs, one of the largest among bacteria.",
+            "💊 Pseudomonas aeruginosa can become resistant to colistin via mutations in the pmrAB and phoPQ two‑component systems.",
+            "🔬 The Las and Rhl quorum‑sensing systems regulate virulence factor production and biofilm formation.",
+            "🧪P. aeruginosa is used as a model organism for studying biofilm formation and antibiotic tolerance.",
+            "🦠 Enterococcus faecium is an opportunistic pathogen, often causing infections in hospitalised and immunocompromised patients.",
+            "💊 It is intrinsically resistant to many antibiotics, including cephalosporins and low levels of aminoglycosides.",
+            "🧬 Vancomycin‑resistant E. faecium (VRE) is a major concern in healthcare settings worldwide.",
+            "🔬 The MLST scheme for E. faecium has over 1,000 sequence types, with ST17, ST18, and ST78 being common hospital‑associated lineages.",
+            "🧪 The vanA and vanB gene clusters confer high‑level vancomycin resistance and can be transferred via plasmids.",
+            "💊 Linezolid resistance in E. faecium can occur through mutations in 23S rRNA or acquisition of the optrA gene.",
+            "🧫 E. faecium can form biofilms on medical devices, including catheters and prosthetic valves.",
+            "🌍 Hospital‑adapted E. faecium have accumulated a large accessory genome enriched in resistance and virulence genes.",
+            "🧬 The acm and scm genes encode adhesins that help E. faecium bind to collagen and other host proteins.",
+            "🔬 E. faecium is also used in food fermentation (e.g., some cheeses) but those strains lack pathogenic genes.",
+            "🦠 The Enterobacter cloacae complex consists of several closely related species: E. cloacae, E. hormaechei, E. kobei, etc.",
+            "💊 It is intrinsically resistant to ampicillin, amoxicillin, and first‑generation cephalosporins due to a chromosomal AmpC beta‑lactamase.",
+            "🧬 Carbapenemases like KPC, NDM, VIM, and OXA‑48 have been increasingly reported in E. cloacae complex.",
+            "🔬 The MLST scheme for E. cloacae complex uses seven housekeeping genes and has identified hundreds of sequence types.",
+            "🧪 Some strains produce the NDM‑1 metallo‑beta‑lactamase, which hydrolyses almost all beta‑lactams except aztreonam.",
+            "💊 Colistin resistance (mcr genes) has been detected in E. cloacae complex isolates from humans and animals.",
+            "🧫 It can form biofilms on medical devices, contributing to catheter‑associated urinary tract infections.",
+            "🌍 The ST78 and ST93 clones have been associated with hospital outbreaks globally.",
+            "🧬 The E. cloacae genome contains multiple multidrug resistance plasmids that can spread to other Enterobacteriaceae.",
+            "🔬 The species can be misidentified by conventional methods; whole‑genome sequencing is needed for accurate species assignment."
+        ];
+
+        const quoteElement = document.getElementById('rotatingQuote');
+        let previousIndex = -1;
+
+        function updateQuote() {
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * quotesAndFacts.length);
+            } while (newIndex === previousIndex && quotesAndFacts.length > 1);
+            previousIndex = newIndex;
+            quoteElement.textContent = quotesAndFacts[newIndex];
+        }
+
+        updateQuote();
+        setInterval(updateQuote, 10000);
+    </script>
 </body>
 </html>

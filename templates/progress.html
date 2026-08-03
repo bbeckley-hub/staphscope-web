@@ -4,53 +4,96 @@
     <div class="card">
         <div class="card-header">
             <h2>Job Progress: {{ job_id }}</h2>
+            <p class="mb-0">Your analysis is running in the background. Logs update every 2 seconds.</p>
         </div>
         <div class="card-body">
             <div class="progress mb-3">
-                <div id="progressBar" class="progress-bar" role="progressbar" style="width:0%;">0%</div>
+                <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 50%;">Processing...</div>
             </div>
             <div class="card bg-dark text-white">
-                <div class="card-header bg-secondary">Live Logs</div>
+                <div class="card-header bg-secondary">📜 Live Logs</div>
                 <div class="card-body">
-                    <pre id="logOutput" style="height: 400px; overflow-y: scroll; background: #1e1e1e; color: #00ff00; padding: 10px; border-radius: 5px;"></pre>
+                    <pre id="logOutput" style="height: 400px; overflow-y: scroll; background: #1e1e1e; color: #d4d4d4; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 0.85rem;">Waiting for logs...</pre>
                 </div>
+            </div>
+            <div class="mt-3 text-center">
+                <button id="manualRedirectBtn" class="btn btn-info" style="display: none;">📂 Check Results (manual)</button>
+                <p class="text-muted small mt-2">If auto-redirect doesn't happen, click the button above.</p>
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
 
-{% block scripts %}
 <script>
-const jobId = "{{ job_id }}";
-const logOutput = document.getElementById('logOutput');
-const progressBar = document.getElementById('progressBar');
+    const jobId = "{{ job_id }}";
+    const logElement = document.getElementById('logOutput');
+    const progressBar = document.getElementById('progressBar');
+    const manualBtn = document.getElementById('manualRedirectBtn');
+    let completed = false;
 
-function fetchStatus() {
-    fetch(`/status/${jobId}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.log) {
-                logOutput.innerText = data.log.join('');
-                logOutput.scrollTop = logOutput.scrollHeight;
-            }
-            if (data.status === 'COMPLETED') {
-                progressBar.style.width = '100%';
-                progressBar.innerText = 'Completed!';
-                setTimeout(() => { window.location.href = `/results/${jobId}`; }, 2000);
-            } else if (data.status === 'FAILED') {
-                progressBar.style.width = '100%';
-                progressBar.classList.add('bg-danger');
-                progressBar.innerText = 'Failed';
-                logOutput.innerText += '\n\n❌ ERROR: ' + data.error;
-            } else {
-                progressBar.style.width = '50%';
-                progressBar.innerText = 'Running...';
-                setTimeout(fetchStatus, 3000);
-            }
-        });
-}
+    function fetchStatus() {
+        fetch(`/status/${jobId}`)
+            .then(response => response.json())
+            .then(data => {
+                // Update logs
+                if (data.log && data.log.length) {
+                    let cleanLog = data.log.join('');
+                    cleanLog = cleanLog.replace(/\x1B\[[0-?]*[ -/]*[@-~]/g, '');
+                    logElement.innerText = cleanLog;
+                    logElement.scrollTop = logElement.scrollHeight;
+                }
+                // Check completion
+                if (data.status === 'COMPLETED' && !completed) {
+                    completed = true;
+                    progressBar.style.width = '100%';
+                    progressBar.classList.remove('progress-bar-animated');
+                    progressBar.innerText = 'Completed! Redirecting...';
+                    setTimeout(() => {
+                        window.location.href = `/results/${jobId}`;
+                    }, 1500);
+                }
+                else if (data.status === 'FAILED') {
+                    progressBar.style.width = '100%';
+                    progressBar.classList.add('bg-danger');
+                    progressBar.classList.remove('progress-bar-animated');
+                    progressBar.innerText = 'Failed';
+                    logElement.innerText += '\n\n❌ ERROR: ' + (data.error || 'Unknown error');
+                    manualBtn.style.display = 'none';
+                }
+                else if (!completed) {
+                    progressBar.style.width = '50%';
+                    progressBar.innerText = 'Running...';
+                }
+            })
+            .catch(err => {
+                console.error('Polling error:', err);
+                logElement.innerText += '\n⚠️ Waiting for server...\n';
+            });
+    }
 
-fetchStatus();
+    fetchStatus();
+    const interval = setInterval(fetchStatus, 2000);
+
+    // Manual fallback: after 30 seconds, check status. If completed, redirect; otherwise show button.
+    setTimeout(() => {
+        if (!completed) {
+            fetch(`/status/${jobId}`)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.status === 'COMPLETED') {
+                        window.location.href = `/results/${jobId}`;
+                    } else {
+                        manualBtn.style.display = 'inline-block';
+                    }
+                })
+                .catch(() => {
+                    manualBtn.style.display = 'inline-block';
+                });
+        }
+    }, 30000);
+
+    manualBtn.addEventListener('click', () => {
+        window.location.href = `/results/${jobId}`;
+    });
 </script>
 {% endblock %}

@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center text-white">Available Genomic Tools</h1>
+    <p class="text-center text-white-50">Select a pathogen to begin analysis</p>
+    <div class="row g-4 mt-3">
+        {% for pipeline in pipelines %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-lg" style="border-top: 5px solid {{ pipeline.color }};">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <h5 class="card-title" style="color: {{ pipeline.color }};">{{ pipeline.name }}</h5>
+                        <span class="badge bg-secondary">{{ pipeline.version }}</span>
+                    </div>
+                    <p class="card-text mt-2">{{ pipeline.description[:150] }}{% if pipeline.description|length > 150 %}…{% endif %}</p>
+                    <p class="small text-muted">
+                        <i class="fab fa-github"></i> 
+                        <a href="{{ pipeline.github }}" target="_blank">{{ pipeline.github.split('/')[-1] }}</a>
+                    </p>
+                    <div class="mt-auto">
+                        <a href="{{ url_for('tool_page', slug=pipeline.slug) }}" class="btn btn-primary btn-sm">Analyse</a>
+                        {% if pipeline.publication != 'Manuscript in preparation' %}
+                        <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#pubModal{{ loop.index }}">Cite</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Citation Modal (if publication exists) -->
+        {% if pipeline.publication != 'Manuscript in preparation' %}
+        <div class="modal fade" id="pubModal{{ loop.index }}" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Cite {{ pipeline.name }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body" style="color: #1f2937;">
+                        <p id="citationText{{ loop.index }}">{{ pipeline.publication }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary btn-sm copy-btn" data-citation-id="citationText{{ loop.index }}">
+                            <i class="fas fa-copy"></i> Copy Citation
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const citationId = this.getAttribute('data-citation-id');
+            const text = document.getElementById(citationId).innerText;
+            
+            // Try using the Clipboard API first
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(function() {
+                    showCopyFeedback(btn, '✅ Copied!');
+                }).catch(function() {
+                    fallbackCopy(text, btn);
+                });
+            } else {
+                fallbackCopy(text, btn);
+            }
+        });
+    });
+});
+
+function fallbackCopy(text, btn) {
+    // Create a temporary textarea to copy from
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    textarea.style.top = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+        const success = document.execCommand('copy');
+        if (success) {
+            showCopyFeedback(btn, '✅ Copied!');
+        } else {
+            showCopyFeedback(btn, '❌ Copy failed');
+            alert('Could not copy citation. Please select and copy manually.');
+        }
+    } catch (e) {
+        showCopyFeedback(btn, '❌ Copy failed');
+        alert('Could not copy citation. Please select and copy manually.');
+    }
+    document.body.removeChild(textarea);
+}
+
+function showCopyFeedback(btn, message) {
+    const original = btn.innerHTML;
+    btn.innerHTML = message;
+    setTimeout(function() {
+        btn.innerHTML = original;
+    }, 2000);
+}
+</script>
+{% endblock %}
