@@ -15,6 +15,10 @@ Welcome to the **ESKAPE AMR Platform** – a free, open-source web application t
 > **This project is currently under active development.**
 > The web interface and core functionality are ready for testing and collaboration. We are actively seeking institutional hosting partners to transition the platform from a personal laptop to a dedicated server, enabling 24/7 availability for the wider research community. Your feedback, contributions, and collaboration are highly welcome.
 
+## 🌐 Live Demo
+
+The platform is live at: **[https://eskape.bio](https://eskape.bio)**
+
 ## 📋 Table of Contents
 
 1.  [Overview](#-overview)
@@ -34,7 +38,7 @@ Welcome to the **ESKAPE AMR Platform** – a free, open-source web application t
 6.  [API Reference](#-api-reference)
 7.  [Deployment](#-deployment)
     *   [System Requirements](#system-requirements)
-    *   [Using Gunicorn & Nginx](#using-gunicorn--nginx)
+    *   [Production Deployment](#production-deployment)
     *   [Institutional Hosting](#institutional-hosting)
 8.  [For Power Users: Command-Line Pipelines](#-for-power-users-command-line-pipelines)
 9.  [Contributing](#-contributing)
@@ -124,7 +128,7 @@ User Browser
 - **Task Queue:** Celery with Redis broker
 - **Bioinformatics Engine:** Species-specific Conda environments
 - **Frontend:** Bootstrap 5, JavaScript, Jinja2 templates
-- **Deployment:** Gunicorn + Nginx (for production)
+- **Deployment:** Gunicorn + Nginx + Cloudflare Tunnel (production)
 
 ## 🚀 Getting Started (Local Development)
 
@@ -151,7 +155,7 @@ User Browser
 
 3.  **Install the required pipeline environments (example for StaphScope):**
     ```bash
-    conda create -n staphscope_env -c conda-forge -c bioconda -c bbeckley-hub staphscope -y
+    conda create -n staphscope_env -c conda-forge -c bioconda  staphscope -y
     # Repeat for ecolityper_env, acinetoscope_env, etc. as needed.
     ```
 
@@ -179,15 +183,15 @@ conda activate eskape-web
 celery -A tasks worker --loglevel=info --concurrency 4
 ```
 
-**Terminal 2 – Flask App:**
+**Terminal 2 – Gunicorn (production WSGI server):**
 ```bash
 conda activate eskape-web
-python app.py
+gunicorn --workers 3 --bind 127.0.0.1:5000 app:app
 ```
 
 **Terminal 3 – (Optional) Cloudflare Tunnel for Public Access:**
 ```bash
-cloudflared tunnel run staphscope
+cloudflared tunnel run eskape
 ```
 *Note: For local testing, simply visit `http://localhost:5000`.*
 
@@ -199,7 +203,7 @@ cloudflared tunnel run staphscope
 2.  **Upload your genome(s):** Click to select one or more FASTA files or a ZIP archive containing them.
 3.  **(Optional) Enter your email** to receive a notification when your job is finished.
 4.  **(Optional) Select modules:** Uncheck any analyses you wish to skip.
-5.  **(StaphScope) Adjust AMR settings:** Fine-tune the minimum identity and coverage thresholds or disable mutation reporting using the sliders.
+5.  **Adjust advanced parameters:** Fine-tune thresholds (e.g., AMR identity/coverage, ABRicate thresholds) using the sliders.
 6.  Click **Submit Job**.
 
 ### Understanding Your Results
@@ -232,9 +236,68 @@ The web app provides a simple REST API for programmatic access:
 - **RAM:** 8+ GB (16+ GB recommended for concurrent jobs)
 - **Storage:** 50+ GB for jobs, logs, and reference databases
 
-### Using Gunicorn & Nginx
+### Production Deployment
 
-For a production deployment, use Gunicorn and Nginx. We provide systemd service file examples for Gunicorn and Celery in the `docs/` folder.
+For a production deployment, we use:
+
+- **Gunicorn** as the WSGI server
+- **Cloudflare Tunnel** for secure public access (no open ports required)
+- **Systemd** services for process management
+- **Redis** as the Celery broker
+
+#### Systemd service files
+
+**Gunicorn** (`/etc/systemd/system/eskape-web.service`):
+```ini
+[Unit]
+Description=ESKAPE Web App (Gunicorn)
+After=network.target
+
+[Service]
+User=YOUR_USER
+Group=YOUR_GROUP
+WorkingDirectory=/path/to/eskape-web-platform
+Environment="PATH=/path/to/conda/envs/klebcrispr/bin"
+ExecStart=/path/to/conda/envs/klebcrispr/bin/gunicorn --workers 3 --bind 127.0.0.1:5000 app:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+**Celery** (`/etc/systemd/system/celery-eskape.service`):
+```ini
+[Unit]
+Description=Celery Worker for ESKAPE AMR Platform
+After=network.target redis.service
+
+[Service]
+User=YOUR_USER
+Group=YOUR_GROUP
+WorkingDirectory=/path/to/eskape-web-platform
+Environment="PATH=/path/to/conda/envs/klebcrispr/bin"
+ExecStart=/path/to/conda/envs/klebcrispr/bin/celery -A tasks worker --loglevel=info --concurrency=2
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+**Cloudflare Tunnel** (`/etc/systemd/system/cloudflared-eskape.service`):
+```ini
+[Unit]
+Description=Cloudflare Tunnel (eskape.bio)
+After=network.target
+
+[Service]
+User=YOUR_USER
+Group=YOUR_GROUP
+ExecStart=/usr/local/bin/cloudflared tunnel run eskape
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
 
 ### Institutional Hosting
 
@@ -274,8 +337,6 @@ If you use this platform or any of its component tools, please cite the relevant
 
 *   **StaphScope:** Beckley B, Amarh V. (2026). StaphScope: a species‑optimized computational pipeline for rapid and accessible *Staphylococcus aureus* genotyping and surveillance. *BMC Genomics*, 27:261. [DOI: 10.1186/s12864-026-12609-x](https://doi.org/10.1186/s12864-026-12609-x)
 
-*   **EcoliTyper:** Beckley B, Amarh V. (2026). EcoliTyper: a species-optimized computational pipeline for comprehensive genotyping and surveillance of *Escherichia coli*. *BMC Bioinformatics*.
-
 ## 📄 License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
@@ -287,7 +348,7 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 **Email:** [brownbeckley94@gmail.com](mailto:brownbeckley94@gmail.com)  
 **GitHub:** [@bbeckley-hub](https://github.com/bbeckley-hub)  
 **Project Link:** [https://github.com/bbeckley-hub/eskape-web-platform](https://github.com/bbeckley-hub/eskape-web-platform)  
-**Live Demo:** [https://staphscope.dpdns.org](https://staphscope.dpdns.org) *(Testing domain, may be offline)*
+**Live Demo:** [https://eskape.bio](https://eskape.bio)
 
 ## 🙏 Acknowledgements
 
